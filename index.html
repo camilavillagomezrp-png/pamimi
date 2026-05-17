@@ -404,6 +404,79 @@ body {
   background: transparent;
 }
 .search-icon { color: var(--muted); font-size: 14px; }
+
+.swap-inner-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: white;
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.swap-inner-tab.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+.swap-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.swap-filters select {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.swap-search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.swap-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+}
+.swap-clear-btn {
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.swap-clear-btn:active { transform: scale(0.97); }
 </style>
 </head>
 <body>
@@ -475,21 +548,55 @@ body {
 </div>
 
 <div class="page" id="page-intercambios">
-  <div class="swap-section">
-    <div class="swap-title">Mis Repetidas (Para dar)</div>
+
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button id="swap-tab-dups" class="swap-inner-tab active" onclick="switchSwapTab('dups')">Mis Repetidas</button>
+    <button id="swap-tab-missing" class="swap-inner-tab" onclick="switchSwapTab('missing')">Me Faltan</button>
+  </div>
+
+  <div class="swap-filters">
+    <select id="filter-grupo" onchange="updatePaisSelect();applySwapFilters()">
+      <option value="">Todos los grupos</option>
+      <option value="A">Grupo A</option>
+      <option value="B">Grupo B</option>
+      <option value="C">Grupo C</option>
+      <option value="D">Grupo D</option>
+      <option value="E">Grupo E</option>
+      <option value="F">Grupo F</option>
+      <option value="G">Grupo G</option>
+      <option value="H">Grupo H</option>
+      <option value="I">Grupo I</option>
+      <option value="J">Grupo J</option>
+      <option value="K">Grupo K</option>
+      <option value="L">Grupo L</option>
+      <option value="ESP">Especiales</option>
+    </select>
+    <select id="filter-pais" onchange="applySwapFilters()">
+      <option value="">Todos los paises</option>
+    </select>
+    <div class="swap-search-bar">
+      <span style="color:var(--muted);font-size:13px">&#128269;</span>
+      <input type="text" id="filter-codigo" placeholder="Codigo..." oninput="applySwapFilters()">
+    </div>
+    <button class="swap-clear-btn" onclick="clearSwapFilters()">Limpiar</button>
+  </div>
+
+  <div id="swap-counter" style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px;"></div>
+
+  <div class="swap-section" id="swap-panel-dups">
     <div class="swap-list" id="duplicates-list"></div>
   </div>
-  <div class="swap-section">
-    <div class="swap-title">Me Faltan</div>
+  <div class="swap-section" id="swap-panel-missing" style="display:none;">
     <div class="swap-list" id="wishlist-list"></div>
   </div>
+
 </div>
 
 <script>
 // ============================================================
 // SUPABASE CONFIG
 // ============================================================
-var SUPABASE_URL = 'https://ynzeaenhhhjgehjcybpt.supabase.co/';
+var SUPABASE_URL = 'https://ynzeaenhhhjgehjcybpt.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluemVhZW5oaGhqZ2VoamN5YnB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NzE4MjgsImV4cCI6MjA5NDU0NzgyOH0.ySHiAV08Qvl0PbGgfKnf8sQEbyJ24t9yqjRQfBI2dR4';
 var USER_ID = 'default';
 
@@ -982,38 +1089,131 @@ function doSearch(q) {
 // ============================================================
 // INTERCAMBIOS
 // ============================================================
-function renderIntercambios() {
+
+var swapCurrentTab = 'dups';
+
+// Mapa codigo -> grupo y pais para filtrar
+function buildStickerMeta() {
+  var meta = {};
+  // Especiales
+  Object.keys(SPECIAL_SECTIONS).forEach(function(key) {
+    SPECIAL_SECTIONS[key].stickers.forEach(function(s) {
+      meta[s.code] = { grupo: 'ESP', pais: 'ESP' };
+    });
+  });
+  // Grupos
+  Object.keys(GROUPS).forEach(function(g) {
+    GROUPS[g].countries.forEach(function(c) {
+      genCountryStickers(c).forEach(function(s) {
+        meta[s.code] = { grupo: g, pais: c };
+      });
+    });
+  });
+  return meta;
+}
+
+function switchSwapTab(tab) {
+  swapCurrentTab = tab;
+  document.getElementById('swap-tab-dups').classList.toggle('active', tab === 'dups');
+  document.getElementById('swap-tab-missing').classList.toggle('active', tab === 'missing');
+  document.getElementById('swap-panel-dups').style.display = tab === 'dups' ? '' : 'none';
+  document.getElementById('swap-panel-missing').style.display = tab === 'missing' ? '' : 'none';
+  // Actualizar select de paises segun grupo
+  updatePaisSelect();
+  applySwapFilters();
+}
+
+function updatePaisSelect() {
+  var grupoVal = document.getElementById('filter-grupo').value;
+  var paisSel = document.getElementById('filter-pais');
+  paisSel.innerHTML = '<option value="">Todos los paises</option>';
+  if (!grupoVal || grupoVal === 'ESP') return;
+  var countries = GROUPS[grupoVal] ? GROUPS[grupoVal].countries : [];
+  countries.forEach(function(c) {
+    var opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = (COUNTRY_NAMES[c] || c) + ' (' + c + ')';
+    paisSel.appendChild(opt);
+  });
+}
+
+function clearSwapFilters() {
+  document.getElementById('filter-grupo').value = '';
+  document.getElementById('filter-codigo').value = '';
+  updatePaisSelect();
+  applySwapFilters();
+}
+
+function applySwapFilters() {
+  updatePaisSelect();
+  var grupoVal = document.getElementById('filter-grupo').value;
+  var paisVal = document.getElementById('filter-pais').value;
+  var codigoVal = document.getElementById('filter-codigo').value.toLowerCase().trim();
+  var meta = buildStickerMeta();
   var all = getAllStickers();
-  var dups = all.filter(function(s) { return (collection[s.code]||0) >= 2; });
-  var missing = all.filter(function(s) { return (collection[s.code]||0) === 0; });
 
+  function matchFilters(s) {
+    var m = meta[s.code] || {};
+    if (grupoVal && m.grupo !== grupoVal) return false;
+    if (paisVal && m.pais !== paisVal) return false;
+    if (codigoVal && s.code.toLowerCase().indexOf(codigoVal) === -1) return false;
+    return true;
+  }
+
+  var dups = all.filter(function(s) { return (collection[s.code]||0) >= 2 && matchFilters(s); });
+  var missing = all.filter(function(s) { return (collection[s.code]||0) === 0 && matchFilters(s); });
+
+  var counter = document.getElementById('swap-counter');
+  if (swapCurrentTab === 'dups') {
+    counter.textContent = dups.length + ' repetida(s) encontrada(s)';
+  } else {
+    counter.textContent = missing.length + ' faltante(s) encontrado(s)';
+  }
+
+  // Render repetidas
   var dupEl = document.getElementById('duplicates-list');
-  var wishEl = document.getElementById('wishlist-list');
-
   if (dups.length) {
     dupEl.innerHTML = dups.map(function(s) {
+      var m = meta[s.code] || {};
+      var grupoBadge = m.grupo && m.grupo !== 'ESP' ? '<span style="background:' + (GROUPS[m.grupo] ? GROUPS[m.grupo].color : '#888') + ';color:white;border-radius:5px;padding:1px 5px;font-size:10px;font-weight:800;margin-right:4px">G' + m.grupo + '</span>' : '<span style="background:#1d6fa4;color:white;border-radius:5px;padding:1px 5px;font-size:10px;font-weight:800;margin-right:4px">ESP</span>';
       return '<div class="swap-item">' +
         '<div class="swap-code">' + s.code + '</div>' +
-        '<div style="flex:1;font-size:12px">' + s.name + '</div>' +
+        '<div style="flex:1;font-size:12px">' + grupoBadge + (COUNTRY_NAMES[m.pais] || m.pais || '') + '</div>' +
         '<div style="background:var(--gold);color:white;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:800">x' + collection[s.code] + '</div>' +
         '</div>';
     }).join('');
   } else {
-    dupEl.innerHTML = '<div class="empty-state">Sin repetidas aun</div>';
+    dupEl.innerHTML = '<div class="empty-state">Sin repetidas' + (grupoVal || paisVal || codigoVal ? ' con esos filtros' : ' aun') + '</div>';
   }
 
+  // Render faltantes
+  var wishEl = document.getElementById('wishlist-list');
   if (missing.length) {
-    var show = missing.slice(0, 60);
+    var show = missing.slice(0, 80);
     wishEl.innerHTML = show.map(function(s) {
+      var m = meta[s.code] || {};
+      var grupoBadge = m.grupo && m.grupo !== 'ESP' ? '<span style="background:' + (GROUPS[m.grupo] ? GROUPS[m.grupo].color : '#888') + ';color:white;border-radius:5px;padding:1px 5px;font-size:10px;font-weight:800;margin-right:4px">G' + m.grupo + '</span>' : '<span style="background:#1d6fa4;color:white;border-radius:5px;padding:1px 5px;font-size:10px;font-weight:800;margin-right:4px">ESP</span>';
       return '<div class="swap-item">' +
         '<div class="swap-code">' + s.code + '</div>' +
-        '<div style="flex:1;font-size:12px">' + s.name + '</div>' +
+        '<div style="flex:1;font-size:12px">' + grupoBadge + (COUNTRY_NAMES[m.pais] || m.pais || '') + '</div>' +
         '</div>';
     }).join('') +
-    (missing.length > 60 ? '<div style="text-align:center;color:var(--muted);font-size:12px;padding:8px">...y ' + (missing.length - 60) + ' mas</div>' : '');
+    (missing.length > 80 ? '<div style="text-align:center;color:var(--muted);font-size:12px;padding:8px">...y ' + (missing.length - 80) + ' mas</div>' : '');
   } else {
-    wishEl.innerHTML = '<div class="empty-state">Album completo!</div>';
+    wishEl.innerHTML = '<div class="empty-state">' + (grupoVal || paisVal || codigoVal ? 'No hay faltantes con esos filtros' : 'Album completo!') + '</div>';
   }
+}
+
+function renderIntercambios() {
+  swapCurrentTab = 'dups';
+  document.getElementById('swap-tab-dups').classList.add('active');
+  document.getElementById('swap-tab-missing').classList.remove('active');
+  document.getElementById('swap-panel-dups').style.display = '';
+  document.getElementById('swap-panel-missing').style.display = 'none';
+  document.getElementById('filter-grupo').value = '';
+  document.getElementById('filter-codigo').value = '';
+  updatePaisSelect();
+  applySwapFilters();
 }
 
 // ============================================================
