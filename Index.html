@@ -3,492 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Panini FIFA World Cup 2026 🏆</title>
+<title>Panini FIFA World Cup 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red: #e63946;
-    --gold: #f4a32a;
-    --green: #2ec27e;
-    --blue: #1d6fa4;
-    --bg: #f0f4f8;
-    --card: #ffffff;
-    --text: #1a1a2e;
-    --muted: #6b7280;
-    --border: #e2e8f0;
-    --shadow: 0 4px 20px rgba(0,0,0,0.10);
-    --radius: 16px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+:root {
+  --red: #e63946;
+  --gold: #f4a32a;
+  --green: #2ec27e;
+  --blue: #1d6fa4;
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --shadow: 0 4px 20px rgba(0,0,0,0.10);
+  --radius: 16px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 16px 16px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-  }
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo-icon { font-size: 28px; }
-  .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 1px; line-height: 1; }
-  .logo-sub { font-size: 10px; color: #94a3b8; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
-  .global-stats {
-    display: flex;
-    gap: 8px;
-  }
-  .stat-pill {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 20px;
-    padding: 4px 10px;
-    text-align: center;
-  }
-  .stat-pill .num { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); line-height: 1; }
-  .stat-pill .lbl { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 16px 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 26px; }
+.logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 1px; line-height: 1; }
+.logo-sub { font-size: 10px; color: #94a3b8; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+.global-stats { display: flex; gap: 8px; }
+.stat-pill {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 4px 10px;
+  text-align: center;
+}
+.stat-pill .num { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); line-height: 1; }
+.stat-pill .lbl { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
 
-  /* TABS */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 0;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0;
-    padding: 8px 14px;
-    border-radius: 10px 10px 0 0;
-    border: none;
-    background: rgba(255,255,255,0.07);
-    color: #94a3b8;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
-  }
-  .tab.active {
-    background: var(--bg);
-    color: var(--text);
-  }
-  .tab:hover:not(.active) { background: rgba(255,255,255,0.12); color: white; }
+.tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 10px 10px 0 0;
+  border: none;
+  background: rgba(255,255,255,0.07);
+  color: #94a3b8;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.tab.active { background: var(--bg); color: var(--text); }
+.tab:hover:not(.active) { background: rgba(255,255,255,0.12); color: white; }
 
-  /* PAGES */
-  .page { display: none; padding: 16px; }
-  .page.active { display: block; }
+.page { display: none; padding: 16px; }
+.page.active { display: block; }
 
-  /* DASHBOARD */
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-    margin-top: 18px;
-  }
-  .section-title:first-child { margin-top: 0; }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  margin-top: 18px;
+}
+.section-title:first-child { margin-top: 0; }
 
-  /* SPECIAL STICKERS ROW */
-  .special-row {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-    margin-bottom: 6px;
-  }
-  .special-row::-webkit-scrollbar { display: none; }
-  .special-card {
-    flex-shrink: 0;
-    background: white;
-    border-radius: 12px;
-    padding: 10px 14px;
-    cursor: pointer;
-    border: 2px solid var(--border);
-    transition: all 0.2s;
-    min-width: 130px;
-    box-shadow: var(--shadow);
-  }
-  .special-card:active { transform: scale(0.96); }
-  .special-card .sc-icon { font-size: 22px; margin-bottom: 4px; }
-  .special-card .sc-name { font-weight: 800; font-size: 12px; color: var(--text); }
-  .special-card .sc-prog { font-size: 11px; color: var(--muted); }
-  .special-card .sc-bar { height: 4px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
-  .special-card .sc-bar-fill { height: 100%; border-radius: 4px; background: var(--gold); transition: width 0.4s; }
+.special-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+.special-row::-webkit-scrollbar { display: none; }
+.special-card {
+  flex-shrink: 0;
+  background: white;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  transition: all 0.2s;
+  min-width: 130px;
+  box-shadow: var(--shadow);
+}
+.special-card:active { transform: scale(0.96); }
+.special-card .sc-icon { font-size: 22px; margin-bottom: 4px; }
+.special-card .sc-name { font-weight: 800; font-size: 12px; color: var(--text); }
+.special-card .sc-prog { font-size: 11px; color: var(--muted); }
+.special-card .sc-bar { height: 4px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+.special-card .sc-bar-fill { height: 100%; border-radius: 4px; background: var(--gold); transition: width 0.4s; }
 
-  /* GROUPS GRID */
-  .groups-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .group-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 12px;
-    cursor: pointer;
-    border: 2px solid var(--border);
-    box-shadow: var(--shadow);
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .group-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--group-color, var(--gold));
-  }
-  .group-card:active { transform: scale(0.97); }
-  .group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-  .group-letter {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    color: var(--group-color, var(--gold));
-    line-height: 1;
-  }
-  .group-pct {
-    font-weight: 800;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .group-flags {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-  .flag-chip {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    background: var(--bg);
-    border-radius: 6px;
-    padding: 2px 6px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-  .flag-chip .fi { font-size: 14px; }
-  .group-progress {
-    margin-top: 8px;
-    height: 5px;
-    background: var(--border);
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .group-progress-fill {
-    height: 100%;
-    border-radius: 5px;
-    background: var(--group-color, var(--gold));
-    transition: width 0.5s ease;
-  }
+.groups-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.group-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 12px;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.group-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--group-color, var(--gold));
+}
+.group-card:active { transform: scale(0.97); }
+.group-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.group-letter { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--group-color, var(--gold)); line-height: 1; }
+.group-pct { font-weight: 800; font-size: 13px; color: var(--muted); }
+.group-flags { display: flex; gap: 4px; flex-wrap: wrap; }
+.flag-chip {
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text);
+}
+.group-progress { margin-top: 8px; height: 5px; background: var(--border); border-radius: 5px; overflow: hidden; }
+.group-progress-fill { height: 100%; border-radius: 5px; background: var(--group-color, var(--gold)); transition: width 0.5s ease; }
 
-  /* COUNTRY VIEW */
-  .back-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: white;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    margin-bottom: 14px;
-    color: var(--text);
-    box-shadow: var(--shadow);
-    transition: all 0.15s;
-  }
-  .back-btn:active { transform: scale(0.97); }
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: all 0.15s;
+}
+.back-btn:active { transform: scale(0.97); }
 
-  .country-header {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 14px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .country-flag-big { font-size: 42px; }
-  .country-name { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); }
-  .country-stats-row { display: flex; gap: 12px; margin-top: 6px; }
-  .cstat { text-align: center; }
-  .cstat-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
-  .cstat-lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-  .cstat.green .cstat-num { color: var(--green); }
-  .cstat.red .cstat-num { color: var(--red); }
-  .cstat.gold .cstat-num { color: var(--gold); }
+.country-header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.country-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold);
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 6px 12px;
+  letter-spacing: 2px;
+}
+.country-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); }
+.country-stats-row { display: flex; gap: 12px; margin-top: 6px; }
+.cstat { text-align: center; }
+.cstat-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+.cstat-lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.cstat.green .cstat-num { color: var(--green); }
+.cstat.red .cstat-num { color: var(--red); }
+.cstat.gold .cstat-num { color: var(--gold); }
 
-  /* STICKER GRID */
-  .sticker-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .sticker-card {
-    background: white;
-    border-radius: 10px;
-    padding: 8px 6px;
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid var(--border);
-    transition: all 0.15s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    position: relative;
-  }
-  .sticker-card.have {
-    border-color: var(--green);
-    background: #f0fdf4;
-  }
-  .sticker-card.duplicate {
-    border-color: var(--gold);
-    background: #fffbeb;
-  }
-  .sticker-card:active { transform: scale(0.93); }
-  .sticker-code {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px;
-    color: var(--blue);
-    line-height: 1;
-  }
-  .sticker-name {
-    font-size: 9px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-top: 3px;
-    line-height: 1.2;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .sticker-check {
-    position: absolute;
-    top: 3px; right: 3px;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--green);
-    display: none;
-    align-items: center;
-    justify-content: center;
-  }
-  .sticker-card.have .sticker-check { display: flex; }
-  .sticker-check svg { width: 8px; height: 8px; }
-  .sticker-foil { background: linear-gradient(135deg, #ffd700, #ffb300); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 8px; font-weight: 800; }
-  .sticker-dup-badge {
-    position: absolute;
-    top: 3px; left: 3px;
-    background: var(--gold);
-    color: white;
-    border-radius: 6px;
-    font-size: 8px;
-    font-weight: 800;
-    padding: 1px 4px;
-    display: none;
-  }
-  .sticker-card.duplicate .sticker-dup-badge { display: block; }
+.sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.sticker-card {
+  background: white;
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  transition: all 0.15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
+}
+.sticker-card.have { border-color: var(--green); background: #f0fdf4; }
+.sticker-card.duplicate { border-color: var(--gold); background: #fffbeb; }
+.sticker-card:active { transform: scale(0.93); }
+.sticker-code { font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: var(--blue); line-height: 1; }
+.sticker-name { font-size: 9px; color: var(--muted); font-weight: 600; margin-top: 3px; line-height: 1.2; }
+.sticker-check {
+  position: absolute;
+  top: 3px; right: 3px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--green);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.sticker-card.have .sticker-check { display: flex; }
+.sticker-check svg { width: 8px; height: 8px; }
+.sticker-dup-badge {
+  position: absolute;
+  top: 3px; left: 3px;
+  background: var(--gold);
+  color: white;
+  border-radius: 6px;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  display: none;
+}
+.sticker-card.duplicate .sticker-dup-badge { display: block; }
+.foil-star { color: #f4a32a; font-size: 8px; font-weight: 800; }
 
-  /* GROUP COUNTRY LIST */
-  .countries-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .country-row {
-    background: white;
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    border: 2px solid var(--border);
-    box-shadow: var(--shadow);
-    transition: all 0.15s;
-  }
-  .country-row:active { transform: scale(0.98); }
-  .country-row-flag { font-size: 28px; }
-  .country-row-info { flex: 1; }
-  .country-row-name { font-weight: 800; font-size: 15px; }
-  .country-row-sub { font-size: 11px; color: var(--muted); }
-  .country-row-pct {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    color: var(--muted);
-  }
-  .country-row-bar { width: 60px; height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 4px; }
-  .country-row-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+.countries-list { display: flex; flex-direction: column; gap: 8px; }
+.country-row {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.15s;
+}
+.country-row:active { transform: scale(0.98); }
+.country-row-code {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--blue);
+  min-width: 44px;
+  text-align: center;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 4px 6px;
+}
+.country-row-info { flex: 1; }
+.country-row-name { font-weight: 800; font-size: 14px; }
+.country-row-sub { font-size: 11px; color: var(--muted); }
+.country-row-pct { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--muted); }
+.country-row-bar { width: 60px; height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+.country-row-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
 
-  /* INTERCAMBIOS PAGE */
-  .swap-section {
-    background: white;
-    border-radius: var(--radius);
-    padding: 14px;
-    margin-bottom: 12px;
-    border: 2px solid var(--border);
-    box-shadow: var(--shadow);
-  }
-  .swap-title { font-weight: 800; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-  .swap-list { display: flex; flex-direction: column; gap: 8px; }
-  .swap-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    background: var(--bg);
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .swap-code { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--blue); min-width: 48px; }
-  .swap-delete {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: var(--red);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 2px 6px;
-    border-radius: 6px;
-  }
-  .empty-state { text-align: center; color: var(--muted); padding: 20px 0; font-size: 13px; }
-  .action-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .action-btn.primary { background: var(--blue); color: white; }
-  .action-btn.success { background: var(--green); color: white; }
-  .action-btn.danger { background: var(--red); color: white; }
-  .action-btn:active { transform: scale(0.97); }
+.swap-section {
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.swap-title { font-weight: 800; font-size: 15px; margin-bottom: 10px; }
+.swap-list { display: flex; flex-direction: column; gap: 8px; }
+.swap-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.swap-code { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--blue); min-width: 48px; }
+.empty-state { text-align: center; color: var(--muted); padding: 20px 0; font-size: 13px; }
+.action-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.action-btn.primary { background: var(--blue); color: white; }
+.action-btn.success { background: var(--green); color: white; }
+.action-btn.danger { background: var(--red); color: white; }
+.action-btn.neutral { background: var(--border); color: var(--text); }
+.action-btn.dim { background: var(--muted); color: white; }
+.action-btn:active { transform: scale(0.97); }
 
-  /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 200;
-    display: none;
-    align-items: flex-end;
-    backdrop-filter: blur(4px);
-  }
-  .modal-overlay.show { display: flex; }
-  .modal {
-    background: white;
-    border-radius: 20px 20px 0 0;
-    padding: 20px 16px 32px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 16px; }
-  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; margin-bottom: 4px; }
-  .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
-  .modal-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px 32px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 16px; }
+.modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.modal-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #1a1a2e;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 700;
-    opacity: 0;
-    transition: all 0.3s;
-    z-index: 300;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1a2e;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 300;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* LOADING */
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    flex-direction: column;
-    gap: 12px;
-    color: var(--muted);
-    font-weight: 700;
-  }
-  .spinner {
-    width: 32px; height: 32px;
-    border: 3px solid var(--border);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  /* SEARCH */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 12px;
-    gap: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .search-bar input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    background: transparent;
-  }
-  .search-bar svg { color: var(--muted); }
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+}
+.search-icon { color: var(--muted); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -496,7 +411,7 @@
 <div class="header">
   <div class="header-top">
     <div class="logo">
-      <div class="logo-icon">⚽</div>
+      <div class="logo-icon">&#9917;</div>
       <div>
         <div class="logo-text">PANINI 2026</div>
         <div class="logo-sub">FIFA World Cup</div>
@@ -514,16 +429,14 @@
     </div>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="showTab('dashboard')">🏠 Grupos</button>
-    <button class="tab" onclick="showTab('buscar')">🔍 Buscar</button>
-    <button class="tab" onclick="showTab('intercambios')">🔄 Cambios</button>
+    <button class="tab active" onclick="showTab('dashboard')">Grupos</button>
+    <button class="tab" onclick="showTab('buscar')">Buscar</button>
+    <button class="tab" onclick="showTab('intercambios')">Cambios</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -531,71 +444,61 @@
   </div>
 </div>
 
-<!-- LOADING -->
 <div id="loading-screen" class="loading">
   <div class="spinner"></div>
-  <div>Cargando tu álbum...</div>
+  <div>Cargando tu album...</div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="page" id="page-dashboard">
-  <!-- Especiales -->
-  <div class="section-title">⭐ Stickers Especiales</div>
+  <div class="section-title">Stickers Especiales</div>
   <div class="special-row" id="special-row"></div>
-
-  <!-- Grupos -->
-  <div class="section-title">🌍 Grupos</div>
+  <div class="section-title">Grupos</div>
   <div class="groups-grid" id="groups-grid"></div>
 </div>
 
-<!-- GROUP VIEW -->
 <div class="page" id="page-group">
-  <button class="back-btn" onclick="showTab('dashboard')">← Volver a Grupos</button>
+  <button class="back-btn" onclick="showTab('dashboard')">&larr; Volver a Grupos</button>
   <div id="group-content"></div>
 </div>
 
-<!-- COUNTRY VIEW -->
 <div class="page" id="page-country">
-  <button class="back-btn" id="back-to-group-btn" onclick="backToGroup()">← Volver al Grupo</button>
+  <button class="back-btn" id="back-btn-country">&larr; Volver</button>
   <div id="country-content"></div>
 </div>
 
-<!-- BUSCAR PAGE -->
 <div class="page" id="page-buscar">
   <div class="search-bar">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search-input" placeholder="Buscar código o jugador..." oninput="doSearch(this.value)">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="search-input" placeholder="Buscar codigo de sticker..." oninput="doSearch(this.value)">
   </div>
   <div id="search-results"></div>
 </div>
 
-<!-- INTERCAMBIOS PAGE -->
 <div class="page" id="page-intercambios">
   <div class="swap-section">
-    <div class="swap-title">📤 Mis Repetidas (Para dar)</div>
+    <div class="swap-title">Mis Repetidas (Para dar)</div>
     <div class="swap-list" id="duplicates-list"></div>
   </div>
   <div class="swap-section">
-    <div class="swap-title">📥 Mi Lista de Pedidos (Me faltan)</div>
+    <div class="swap-title">Me Faltan</div>
     <div class="swap-list" id="wishlist-list"></div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// SUPABASE CONFIG — Pega tus credenciales aquí
+// SUPABASE CONFIG
 // ============================================================
-const SUPABASE_URL = 'https://ynzeaenhhhjgehjcybpt.supabase.co/rest/v1/';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluemVhZW5oaGhqZ2VoamN5YnB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NzE4MjgsImV4cCI6MjA5NDU0NzgyOH0.ySHiAV08Qvl0PbGgfKnf8sQEbyJ24t9yqjRQfBI2dR4';
-const USER_ID = 'default'; // Cambiar por user ID si hay auth
+var SUPABASE_URL = 'https://ynzeaenhhhjgehjcybpt.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluemVhZW5oaGhqZ2VoamN5YnB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NzE4MjgsImV4cCI6MjA5NDU0NzgyOH0.ySHiAV08Qvl0PbGgfKnf8sQEbyJ24t9yqjRQfBI2dR4';
+var USER_ID = 'default';
 
-const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================================
-// DATOS DEL ÁLBUM
+// DATOS DEL ALBUM
 // ============================================================
-const GROUPS = {
+var GROUPS = {
   A: { color: '#e63946', countries: ['MEX','RSA','KOR','CZE'] },
   B: { color: '#3b82f6', countries: ['CAN','BIH','QAT','SUI'] },
   C: { color: '#10b981', countries: ['BRA','MAR','HAI','SCO'] },
@@ -610,158 +513,108 @@ const GROUPS = {
   L: { color: '#ef4444', countries: ['ENG','CRO','GHA','PAN'] }
 };
 
-const COUNTRY_INFO = {
-  MEX:{name:'México',flag:'🇲🇽'},RSA:{name:'Sudáfrica',flag:'🇿🇦'},KOR:{name:'Corea del Sur',flag:'🇰🇷'},CZE:{name:'Chequia',flag:'🇨🇿'},
-  CAN:{name:'Canadá',flag:'🇨🇦'},BIH:{name:'Bosnia',flag:'🇧🇦'},QAT:{name:'Qatar',flag:'🇶🇦'},SUI:{name:'Suiza',flag:'🇨🇭'},
-  BRA:{name:'Brasil',flag:'🇧🇷'},MAR:{name:'Marruecos',flag:'🇲🇦'},HAI:{name:'Haití',flag:'🇭🇹'},SCO:{name:'Escocia',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'},
-  USA:{name:'USA',flag:'🇺🇸'},PAR:{name:'Paraguay',flag:'🇵🇾'},AUS:{name:'Australia',flag:'🇦🇺'},TUR:{name:'Türkiye',flag:'🇹🇷'},
-  GER:{name:'Alemania',flag:'🇩🇪'},CUW:{name:'Curazao',flag:'🇨🇼'},CIV:{name:'Costa de Marfil',flag:'🇨🇮'},ECU:{name:'Ecuador',flag:'🇪🇨'},
-  NED:{name:'Países Bajos',flag:'🇳🇱'},JPN:{name:'Japón',flag:'🇯🇵'},SWE:{name:'Suecia',flag:'🇸🇪'},TUN:{name:'Túnez',flag:'🇹🇳'},
-  BEL:{name:'Bélgica',flag:'🇧🇪'},EGY:{name:'Egipto',flag:'🇪🇬'},IRN:{name:'Irán',flag:'🇮🇷'},NZL:{name:'Nueva Zelanda',flag:'🇳🇿'},
-  ESP:{name:'España',flag:'🇪🇸'},CPV:{name:'Cabo Verde',flag:'🇨🇻'},SAU:{name:'Arabia Saudita',flag:'🇸🇦'},URU:{name:'Uruguay',flag:'🇺🇾'},
-  FRA:{name:'Francia',flag:'🇫🇷'},SEN:{name:'Senegal',flag:'🇸🇳'},IRQ:{name:'Irak',flag:'🇮🇶'},NOR:{name:'Noruega',flag:'🇳🇴'},
-  ARG:{name:'Argentina',flag:'🇦🇷'},ALG:{name:'Argelia',flag:'🇩🇿'},AUT:{name:'Austria',flag:'🇦🇹'},JOR:{name:'Jordania',flag:'🇯🇴'},
-  POR:{name:'Portugal',flag:'🇵🇹'},COD:{name:'Congo DR',flag:'🇨🇩'},UZB:{name:'Uzbekistán',flag:'🇺🇿'},COL:{name:'Colombia',flag:'🇨🇴'},
-  ENG:{name:'Inglaterra',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},CRO:{name:'Croacia',flag:'🇭🇷'},GHA:{name:'Ghana',flag:'🇬🇭'},PAN:{name:'Panamá',flag:'🇵🇦'}
+var COUNTRY_NAMES = {
+  MEX:'Mexico', RSA:'Sudafrica', KOR:'Corea del Sur', CZE:'Chequia',
+  CAN:'Canada', BIH:'Bosnia', QAT:'Qatar', SUI:'Suiza',
+  BRA:'Brasil', MAR:'Marruecos', HAI:'Haiti', SCO:'Escocia',
+  USA:'USA', PAR:'Paraguay', AUS:'Australia', TUR:'Turkiye',
+  GER:'Alemania', CUW:'Curazao', CIV:'C. de Marfil', ECU:'Ecuador',
+  NED:'P. Bajos', JPN:'Japon', SWE:'Suecia', TUN:'Tunez',
+  BEL:'Belgica', EGY:'Egipto', IRN:'Iran', NZL:'N. Zelanda',
+  ESP:'Espana', CPV:'Cabo Verde', SAU:'Arabia S.', URU:'Uruguay',
+  FRA:'Francia', SEN:'Senegal', IRQ:'Irak', NOR:'Noruega',
+  ARG:'Argentina', ALG:'Argelia', AUT:'Austria', JOR:'Jordania',
+  POR:'Portugal', COD:'Congo DR', UZB:'Uzbekistan', COL:'Colombia',
+  ENG:'Inglaterra', CRO:'Croacia', GHA:'Ghana', PAN:'Panama'
 };
 
-// Stickers especiales (secciones no-grupo)
-const SPECIAL_SECTIONS = {
+// Stickers especiales
+var SPECIAL_SECTIONS = {
   FWC: {
-    name: 'FIFA World Cup', icon: '🏆',
-    stickers: [
-      {code:'00',name:'Panini Logo',foil:true},
-      {code:'FWC1',name:'Official Emblem',foil:true},{code:'FWC2',name:'Official Emblem',foil:true},
-      {code:'FWC3',name:'Official Mascots',foil:true},{code:'FWC4',name:'Official Slogan',foil:true},
-      {code:'FWC5',name:'Official Ball',foil:true},
-      {code:'FWC6',name:'Canadá - Host',foil:true},{code:'FWC7',name:'México - Host',foil:true},{code:'FWC8',name:'USA - Host',foil:true},
-      {code:'FWC9',name:'Italy 1934',foil:true},{code:'FWC10',name:'Uruguay 1950',foil:true},
-      {code:'FWC11',name:'W. Germany 1954',foil:true},{code:'FWC12',name:'Brazil 1962',foil:true},
-      {code:'FWC13',name:'W. Germany 1974',foil:true},{code:'FWC14',name:'Argentina 1986',foil:true},
-      {code:'FWC15',name:'Brazil 1994',foil:true},{code:'FWC16',name:'Brazil 2002',foil:true},
-      {code:'FWC17',name:'Italy 2006',foil:true},{code:'FWC18',name:'Germany 2014',foil:true},
-      {code:'FWC19',name:'Argentina 2022',foil:true}
-    ]
+    name: 'FIFA World Cup', icon: 'FWC',
+    stickers: (function() {
+      var s = [];
+      s.push({code:'00', name:'Panini Logo', foil:true});
+      for (var i = 1; i <= 19; i++) {
+        s.push({code:'FWC'+i, name:'FWC '+i, foil:true});
+      }
+      return s;
+    })()
   },
-  COCACOLA: {
-    name: 'Coca-Cola Exclusivos', icon: '🥤',
-    stickers: [
-      {code:'CC1',name:'Coca-Cola #1',foil:false},{code:'CC2',name:'Coca-Cola #2',foil:false},
-      {code:'CC3',name:'Coca-Cola #3',foil:false},{code:'CC4',name:'Coca-Cola #4',foil:false},
-      {code:'CC5',name:'Coca-Cola #5',foil:false},{code:'CC6',name:'Coca-Cola #6',foil:false},
-      {code:'CC7',name:'Coca-Cola #7',foil:false},{code:'CC8',name:'Coca-Cola #8',foil:false},
-      {code:'CC9',name:'Coca-Cola #9',foil:false},{code:'CC10',name:'Coca-Cola #10',foil:false},
-      {code:'CC11',name:'Coca-Cola #11',foil:false},{code:'CC12',name:'Coca-Cola #12',foil:false}
-    ]
+  CC: {
+    name: 'Coca-Cola', icon: 'CC',
+    stickers: (function() {
+      var s = [];
+      for (var i = 1; i <= 12; i++) {
+        s.push({code:'CC'+i, name:'CC '+i, foil:false});
+      }
+      return s;
+    })()
   }
 };
 
-// Generar stickers de cada selección
+// Generar stickers de cada seleccion (20 por pais, sin nombres)
 function genCountryStickers(code) {
-  const players = PLAYER_DATA[code] || [];
-  const stickers = [];
-  stickers.push({code:`${code}1`, name:'Team Logo', foil:true});
-  for(let i=2;i<=12;i++){
-    const p = players[i-2] || `Jugador ${i}`;
-    stickers.push({code:`${code}${i}`, name:p, foil:false});
+  var s = [];
+  s.push({code:code+'1', name:'Logo', foil:true});
+  for (var i = 2; i <= 12; i++) {
+    s.push({code:code+i, name:code+' '+i, foil:false});
   }
-  stickers.push({code:`${code}13`, name:'Team Photo', foil:false});
-  for(let i=14;i<=20;i++){
-    const p = players[i-3] || `Jugador ${i}`;
-    stickers.push({code:`${code}${i}`, name:p, foil:false});
+  s.push({code:code+'13', name:'Equipo', foil:false});
+  for (var j = 14; j <= 20; j++) {
+    s.push({code:code+j, name:code+' '+j, foil:false});
   }
-  return stickers;
+  return s;
 }
 
-// Datos de jugadores por selección
-const PLAYER_DATA = {
-  MEX:['Luis Malagón','Johan Vasquez','Jorge Sánchez','Cesar Montes','Jesus Gallardo','Israel Reyes','Diego Lainez','Carlos Rodriguez','Edson Alvarez','Orbelin Pineda','Marcel Ruiz','','Érick Sánchez','Hirving Lozano','Santiago Giménez','Raúl Jiménez','Alexis Vega','Roberto Alvarado','Cesar Huerta'],
-  RSA:['Ronwen Williams','Sipho Chaine','Aubrey Modiba','Samukele Kabini','Mbekezeli Mbokazi','Khulumani Ndamane','Siyabonga Ngezana','Khuliso Mudau','Nkosinathi Sibisi','Teboho Mokoena','Thalente Mbatha','','Bathasi Aubaas','Yaya Sithole','Sipho Mbule','Lyle Foster','Iqraam Rayners','Mohau Nkota','Oswin Appollis'],
-  KOR:['Hyeon-woo Jo','Seung-Gyu Kim','Min-jae Kim','Yu-min Cho','Young-woo Seol','Han-beom Lee','Tae-seok Lee','Myung-jae Lee','Jae-sung Lee','In-beom Hwang','Kang-in Lee','','Seung-ho Paik','Jens Castrop','Dongg-yeong Lee','Gue-sung Cho','Heung-min Son','Hee-chan Hwang','Hyeon-Gyu Oh'],
-  CZE:['Matej Kovar','Jindrich Stanek','Ladislav Krejci','Vladimir Coufal','Jaroslav Zeleny','Tomas Holes','David Zima','Michal Sadilek','Lukas Provod','Lukas Cerv','Tomas Soucek','','Pavel Sulc','Matej Vydra','Vasil Kusej','Tomas Chory','Vaclav Cerny','Adam Hlozek','Patrik Schick'],
-  CAN:['Dayne St.Clair','Alphonso Davies','Alistair Johnston','Samuel Adekugbe','Riche Larvea','Derek Cornelius','Moïse Bombito','Kamal Miller','Stephen Eustáquio','Ismaël Koné','Jonathan Osorio','','Jacob Shaffelburg','Mathieu Choinière','Niko Sigur','Tajon Buchanan','Liam Millar','Cyle Larin','Jonathan David'],
-  BIH:['Nikola Vasilj','Amer Dedic','Sead Kolasinac','Tarik Muharemovic','Nihad Mujakic','Nikola Katic','Amir Hadziahmetovic','Benjamin Tahirovic','Armin Gigovic','Ivan Sunjic','Ivan Basic','','Dzenis Burnic','Esmir Bajraktarevic','Amar Memic','Ermedin Demirovic','Edin Dzeko','Samed Bazdar','Haris Tabakovic'],
-  QAT:['Meshaal Barsham','Sultan Albrake','Lucas Mendes','Homam Ahmed','Boualem Khoukhi','Pedro Miguel','Tarek Salman','Mohamed Al-Mannai','Karim Boudiaf','Assim Madibo','Ahmed Fatehi','','Mohammed Waad','Abdulaziz Hatem','Hassan Al-Haydos','Edmilson Junior','Akram Hassan Afif','Ahmed Al Ganehi','Almoez Ali'],
-  SUI:['Gregor Kobel','Yvon Mvogo','Manuel Akanji','Ricardo Rodriguez','Nico Elvedi','Aurèle Amenda','Silvan Widmer','Granit Xhaka','Denis Zakaria','Remo Freuler','Fabian Rieder','','Ardon Jashari','Johan Manzambi','Michel Aebischer','Breel Embolo','Ruben Vargas','Dan Ndoye','Zeki Amdouni'],
-  BRA:['Alisson','Bento','Marquinhos','Éder Militão','Gabriel Magalhães','Danilo','Wesley','Lucas Paquetá','Casemiro','Bruno Guimarães','Luiz Henrique','','Vinicius Júnior','Rodrygo','João Pedro','Matheus Cunha','Gabriel Martinelli','Raphinha','Estévão'],
-  MAR:['Yassine Bounou','Munir El Kajoui','Achraf Hakimi','Noussair Mazraoui','Nayef Aguerd','Roman Saiss','Jawad El Yamio','Adam Masina','Sofyan Amrabat','Azzedine Ounahi','Eliesse Ben Seghir','','Bilal El Khannouss','Ismael Saibari','Youssef En-Nesyri','Abde Ezzalzouli','Soufiane Rahimi','Brahim Diaz','Ayoub El Kaabi'],
-  HAI:['Johny Placide','Carlens Arcus','Martin Expérience','Jean-Kevin Duverne','Ricardo Adé','Duke Lacroix','Garven Metusala','Hannes Delcroix','Leverton Pierre','Danley Jean Jacques','Jean-Ricner Bellegarde','','Christopher Attys','Derrick Etienne Jr','Josue Casimir','Ruben Providence','Duckens Nazon','Louicius Deedson','Frantzdy Pierrot'],
-  SCO:['Angus Gunn','Jack Hendry','Kieran Tierney','Aaron Hickey','Andrew Robertson','Scott McKenna','John Souttar','Anthony Ralston','Grant Hanley','Scott McTominay','Billy Gilmour','','Lewis Ferguson','Ryan Christie','Kenny McLean','John McGinn','Lyndon Dykes','Che Adams','Ben Gannon-Doak'],
-  USA:['Math Freese','Chris Richards','Tim Ream','Mark McKenzie','Alex Freeman','Antonee Robinson','Tyler Adams','Tanner Tessmann','Weston McKenny','Christian Roldan','Timothy Weah','','Diego Luna','Malik Tillman','Christian Pulisic','Brenden Aaronson','Ricardo Pepi','Haji Wright','Folarin Balogun'],
-  PAR:['Roberto Fernandez','Orlando Gill','Gustavo Gomez','Fabián Balbuena','Juan José Cáceres','Omar Alderete','Junior Alonso','Mathías Villasanti','Diego Gomez','Damián Bobadilla','Andres Cubas','','Matias Galarza Fonda','Julio Enciso','Alejandro Romero Gamarra','Miguel Almirón','Ramon Sosa','Angel Romero','Antonio Sanabria'],
-  AUS:['Mathew Ryan','Joe Gauci','Harry Souttar','Alessandro Circati','Jordan Bos','Aziz Behich','Cameron Burgess','Lewis Miller','Milos Degenek','Jackson Irvine','Riley McGree','','Aiden O\'Neill','Connor Metcalfe','Patrick Yazbek','Craig Goodwin','Kusini Vengi','Nestory Irankunda','Mohamed Touré'],
-  TUR:['Ugurcan Cakir','Mert Muldur','Zeki Celik','Abdulkerim Bardakci','Caglar Soyuncu','Merih Demiral','Ferdi Kadioglu','Kaan Ayhan','Ismail Yuksek','Hakan Calhanoglu','Orkun Kokcu','','Arda Guler','Irfan Can Kahveci','Yunus Akgun','Can Uzun','Baris Alper Yilmaz','Kerem Akturkoglu','Kenan Yildiz'],
-  GER:['Marc-André ter Stegen','Jonathan Tah','David Raum','Nico Schlotterbeck','Antonio Rüdiger','Waldemar Anton','Ridle Baku','Maximilian Mittelstadt','Joshua Kimmich','Florian Wirtz','Felix Nmecha','','Leon Goretzka','Jamal Musiala','Serge Gnabry','Kai Havertz','Leroy Sane','Karim Adeyemi','Nick Woltemade'],
-  CUW:['Eloy Room','Armando Obispo','Sherel Floranus','Jurien Gaari','Joshua Brenet','Roshon Van Eijma','Shurandy Sambo','Livano Comenencia','Godfried Roemeratoe','Juninho Bacuna','Leandro Bacuna','','Tahith Chong','Kenji Gorre','Jearl Margaritha','Jurgen Locadia','Jeremy Antonisse','Gervane Kastaneer','Sontje Hansen'],
-  CIV:['Yahia Fofana','Ghislain Konan','Wilfried Singo','Odilon Kossounou','Evan Ndicka','Willy Boly','Emmanuel Agbadou','Ousmane Diomande','Franck Kessie','Seko Fofana','Ibrahim Sangare','','Jean-Philippe Gbamin','Amad Diallo','Sébastien Haller','Simon Adingra','Yan Diomande','Evann Guessand','Oumar Diakite'],
-  ECU:['Hernán Galíndez','Gonzalo Valle','Piero Hincapié','Pervis Estupiñán','Willian Pacho','Ángelo Preciado','Joel Ordóñez','Moises Caicedo','Alan Franco','Kendry Paez','Pedro Vite','','John Veboah','Leonardo Campana','Gonzalo Plata','Nilson Angulo','Alan Minda','Kevin Rodriguez','Enner Valencia'],
-  NED:['Bart Verbruggen','Virgil van Dijk','Micky van de Ven','Jurrien Timber','Denzel Dumfries','Nathan Aké','Jeremie Frimpong','Jan Paul van Hecke','Tijjani Reijnders','Ryan Gravenberch','Teun Koopmeiners','','Frenkie de Jong','Xavi Simons','Justin Kluivert','Memphis Depay','Donyell Malen','Wout Weghorst','Cody Gakpo'],
-  JPN:['Zion Suzuki','Henry Mochizuki','Ayumu Seko','Junnosuke Suzuki','Shogo Taniguchi','Tsuyoshi Watanabe','Kaishu Sano','Yuki Soma','Ao Tanaka','Daichi Kamada','Takefusa Kubo','','Ritsu Doan','Keito Nakamura','Takumi Minamino','Shuto Machino','Junya Ito','Koki Ogawa','Ayase Ueda'],
-  SWE:['Victor Johansson','Isak Hien','Gabriel Gudmundsson','Emil Holm','Victor Nilsson Lindelöf','Gustaf Lagerbielke','Lucas Bergvall','Hugo Larsson','Jesper Karlström','Yasin Ayari','Mattias Svanberg','','Daniel Svensson','Ken Sema','Roony Bardghji','Dejan Kulusevski','Anthony Elanga','Alexander Isak','Viktor Gyökeres'],
-  TUN:['Bechir Ben Said','Aymen Dahmen','Yan Valery','Montassar Talbi','Yassine Meriah','Ali Abdi','Dylan Bronn','Ellyes Skhiri','Aissa Laidouni','Ferjani Sassi','Mohamed Ali Ben Romdhane','','Hannibal Mejbri','Elias Achouri','Elias Saad','Hazem Mastouri','Ismael Gharbi','Sayfallah Ltaief','Naim Sliti'],
-  BEL:['Thibaut Courtois','Arthur Theate','Timothy Castagne','Zeno Debast','Brandon Mechele','Maxim De Cuyper','Thomas Meunier','Youri Tielemans','Amadou Onana','Nicolas Raskin','Alexis Saelemaekers','','Hans Vanaken','Kevin De Bruyne','Jérémy Doku','Charles De Ketelaere','Leandro Trossard','Loïs Openda','Romelu Lukaku'],
-  EGY:['Mohamed El Shenawy','Mohamed Hany','Mohamed Hamdy','Yasser Ibrahim','Khaled Sobhi','Ramy Rabia','Hossam Abdelmaguid','Ahmed Fatouh','Marwan Attia','Zizo','Hamdy Fathy','','Mohamed Lasheen','Emam Ashour','Osama Faisal','Mohamed Salah','Mostafa Mohamed','Trezeguet','Omar Marmoush'],
-  IRN:['Alireza Beiranvand','Morteza Pouraliganji','Ehsan Hajsafi','Milad Mohammadi','Shojae Khalilzadeh','Ramin Rezaeian','Hossein Kanaani','Sadegh Moharrami','Saleh Hardani','Saeed Ezatolahi','Saman Ghoddos','','Omid Noorafkan','Roozbeh Cheshmi','Mohammad Mohebi','Sardar Azmoun','Mehdi Taremi','Alireza Jahanbakhsh','Ali Gholizadeh'],
-  NZL:['Max Crocombe Payne','Alex Paulsen','Michael Boxall','Liberato Cacace','Tim Payne','Tyler Bindon','Francis de Vries','Finn Surman','Joe Bell','Sarpreet Singh','Ryan Thomas','','Matthew Garbett','Marko Stamenić','Ben Old','Chris Wood','Elijah Just','Callum McCowatt','Kosta Barbarouses'],
-  ESP:['Unai Simon','Robin Le Normand','Aymeric Laporte','Dean Huijsen','Pedro Porro','Dani Carvajal','Marc Cucurella','Martín Zubimendi','Rodri','Pedri','Fabian Ruiz','','Mikel Merino','Lamine Yamal','Dani Olmo','Nico Williams','Ferran Torres','Álvaro Morata','Mikel Oyarzabal'],
-  CPV:['Vozinha','Logan Costa','Pico','Diney','Steven Moreira','Wagner Pina','Joao Paulo','Yannick Semedo','Kevin Pina','Patrick Andrade','Jamiro Monteiro','','Ryan Mendes','Kenny Rocha','Garry Rodrigues','Djaniny','Julio Tavares','Willy Semedo','Bryan Teixeira'],
-  SAU:['Mohammed Al-Owais','Al-Harbi','Ali Al-Bulaihi','Saud Abdulhamid','Sultan Al-Ghanan','Abdulelah Al-Malki','Ali Al-Hassan','Mohamed Kanno','Sami Al-Najei','Saleh Al-Shehri','Fahad Al-Muwallad','','Abdullah Al-Hamdan','Hattan Bahebri','Firas Al-Buraikan','Khaled Al-Ghannam','Ahmed Al-Ghamdi','Yasser Al-Shahrani','Riyadh Sharahili'],
-  URU:['Fernando Muslera','Sergio Rochet','Diego Godín','Guillermo Varela','Ronald Araújo','José Giménez','Mathías Olivera','Rodrigo Bentancur','Lucas Torreira','Federico Valverde','Facundo Pellistri','','Nicolás De La Cruz','Darwin Núñez','Luis Suárez','Maxi Gómez','Agustín Cannobio','Matías Vecino','Brian Rodríguez'],
-  FRA:['Mike Maignan','Hugo Lloris','William Saliba','Dayot Upamecano','Théo Hernández','Benjamin Pavard','Lucas Hernández','N\'Golo Kanté','Aurélien Tchouaméni','Adrien Rabiot','Eduardo Camavinga','','Antoine Griezmann','Ousmane Dembélé','Kylian Mbappé','Marcus Thuram','Randal Kolo Muani','Bradley Barcola','Kingsley Coman'],
-  SEN:['Édouard Mendy','Alfred Gomis','Ismail Jakobs','Abdou Diallo','Kalidou Koulibaly','Formose Mendy','Lamine Camara','Pathé Ciss','Pape Matar Sarr','Idrissa Gueye','Nicolas Jackson','','Ismaïla Sarr','Sadio Mané','Bamba Dieng','Habib Diallo','Iliman Ndiaye','Krepin Diatta','Cheikhou Kouyaté'],
-  IRQ:['Jalal Hassan','Mohammed Hameed','Ali Adnan','Mustafa Nadhim','Amjed Attwan','Abbas Hamid','Saad Natiq','Ibrahim Bayesh','Ahmed Yasin','Aymen Hussein','Amir Al-Ammari','','Mohanad Ali','Ali Jasim','Humam Tariq','Alaa Abbas','Emad Mohammed','Bashar Resan','Ahmed Kareem'],
-  NOR:['Ørjan Nyland','Rune Jarstein','Stefan Strandberg','Kristoffer Ajer','Andreas Hanche-Olsen','Birger Meling','Julian Ryerson','Sander Berge','Martin Ødegaard','Mathias Normann','Patrick Berg','','Alexander Sørloth','Erling Haaland','Mohamed Elyounoussi','Ola Solbakken','Jørgen Strand Larsen','Fredrik Aursnes','Tobias Sana'],
-  ARG:['Emiliano Martínez','Geronimo Rulli','Nahuel Molina','Cristian Romero','Lisandro Martínez','Nicolas Otamendi','Marcos Acuña','Rodrigo De Paul','Enzo Fernández','Leandro Paredes','Alexis Mac Allister','','Paulo Dybala','Ángel Di María','Lautaro Martínez','Julián Álvarez','Nicolás González','Thiago Almada','Lionel Messi'],
-  ALG:['Alexis Guendouz','Ramy Bensebaini','Youcef Atal','Rayan Aït-Nouri','Mohamed Amine Tougai','Aïssa Mandi','Ismael Bennacer','Youssouf Belaïli','Said Benrahma','Sofiane Feghouli','Houssem Aouar','','Samy Maamar','Baghdad Bounedjah','Islam Slimani','Djamel Benlamri','Riyad Mahrez','Andy Delort','Youcef Msakni'],
-  AUT:['Patrick Pentz','Alexander Schlager','Maximilian Wöber','Stefan Posch','Phillipp Lienhart','Martin Hinteregger','David Alaba','Alexander Prass','Florian Grillitsch','Christoph Baumgartner','Nicolas Seiwald','','Marcel Sabitzer','Xaver Schlager','Michael Gregoritsch','Marko Arnautovic','Patrick Wimmer','Konrad Laimer','Guido Burgstaller'],
-  JOR:['Yazeed Abulaila','Baha\'eddine Ashour','Mohammad Abu Hasheish','Ehsan Haddad','Abdallah Nasib','Samer Awad','Yazan Al-Naimat','Musa Tayeh','Rami Hamada','Ahmad Alhajali','Mousa Al-Tamari','','Mohammad Rashdan','Khaled Al-Rashdan','Hamza Khrabin','Baha Faisal','Emad Al-Saraireh','Manaf Nassar','Ahmad Al Saliheen'],
-  POR:['Diogo Costa','Rui Patrício','Rúben Dias','Pepe','Nélson Semedo','João Cancelo','Nuno Mendes','Vitinha','João Palhinha','Rúben Neves','Bernardo Silva','','Bruno Fernandes','Rafael Leão','João Félix','Gonçalo Ramos','Diogo Jota','Pedro Neto','Cristiano Ronaldo'],
-  COD:['Joël Kiassumbua','Lionel Mpasi','Chancel Mbemba','Arthur Masuaku','Murgia Massaro','Marcel Tisserand','Kakuta','Jean-Marc Makusu','Paul-José Mpoku','Yannick Bolasie','Cédric Bakambu','','Britt Assombalonga','Silas Katompa','Florin Andone','Jonathan David','Dieumerci Mbokani','Wilfried Zaha','Jojo Wollacott'],
-  UZB:['Eldorbek Suyunov','Jasur Jalolov','Akbar Turgunboev','Abdukodir Khusanov','Eldor Shomurodov','Odil Akhmedov','Sanjar Tursunov','Timur Kapadze','Asilbek Ismatov','Lochin Ochilov','Muhammadkodir Hamroyev','','Nodir Turgunboev','Doniyor Ergashev','Bobur Abdixoliqov','Jaloliddin Masharipov','Otabek Shukurov','Ilhom Hamroyev','Husan Kodirbekov'],
-  COL:['David Ospina','Camilo Vargas','Davinson Sánchez','Yerry Mina','Stefan Medina','William Tesillo','Jhon Lucumí','Frank Fabra','Mateus Uribe','Juan Cuadrado','Wilmar Barrios','','Sebastián Villa','Duván Zapata','Luis Díaz','Rafael Santos Borré','Jorge Carrascal','Roger Martínez','James Rodríguez'],
-  ENG:['Jordan Pickford','Nick Pope','Trent Alexander-Arnold','Conor Coady','John Stones','Luke Shaw','Reece James','Declan Rice','Jude Bellingham','Phil Foden','Marcus Rashford','','Mason Mount','Bukayo Saka','Harry Kane','Raheem Sterling','Jack Grealish','Kalvin Phillips','Jarrod Bowen'],
-  CRO:['Dominik Livaković','Ivo Grbić','Joško Gvardiol','Dejan Lovren','Duje Ćaleta-Car','Domagoj Vida','Josip Juranović','Luka Modrić','Marcelo Brozović','Mario Pašalić','Ivan Perišić','','Mateo Kovačić','Nikola Vlašić','Ante Budimir','Bruno Petković','Lovro Majer','Andrej Kramarić','Borna Sosa'],
-  GHA:['Lawrence Ati-Zigi','Joe Wollacott','Alexander Djiku','Daniel Amartey','Gideon Mensah','Joseph Aidoo','Baba Rahman','Mohammed Salisu','Thomas Partey','Iddrisu Baba','Andre Ayew','','Jordan Ayew','Inaki Williams','Osman Bukari','Antoine Semenyo','Joel Fameyeh','Kamaldeen Sulemana','Tariq Lamptey'],
-  PAN:['Luis Mejía','Jaime Penedo','Fidel Escobar','Andrés Andrade','Anibal Godoy','Adalberto Carrasquilla','Eric Davis','Tomás Christiansen','Armando Cooper','Rolando Blackburn','Cecilio Waterman','','Édgar Bárcenas','Michael Murillo','Harold Cummings','Alberto Quintero','Gabriel Torres','Ismael Díaz','José Luis Rodríguez']
-};
+// ============================================================
+// ESTADO
+// ============================================================
+var collection = {};
+var currentGroup = null;
+var currentCountry = null;
 
 // ============================================================
-// STATE
-// ============================================================
-let collection = {}; // { code: 0|1|2+ (0=no, 1=tengo, 2+=duplicados) }
-let currentGroup = null;
-let currentCountry = null;
-let isReady = false;
-
-// ============================================================
-// SUPABASE FUNCTIONS
+// SUPABASE
 // ============================================================
 async function loadCollection() {
   try {
-    const { data, error } = await sb.from('panini_collection')
+    var result = await sb.from('panini_collection')
       .select('sticker_code, status')
       .eq('user_id', USER_ID);
-    if (error) throw error;
+    if (result.error) throw result.error;
     collection = {};
-    if (data) data.forEach(r => { collection[r.sticker_code] = r.status; });
+    if (result.data) {
+      result.data.forEach(function(r) {
+        collection[r.sticker_code] = r.status;
+      });
+    }
   } catch(e) {
-    console.error('Load error:', e);
-    // Offline mode: usar localStorage
-    const saved = localStorage.getItem('panini_collection');
-    if (saved) collection = JSON.parse(saved);
+    var saved = localStorage.getItem('panini_col');
+    if (saved) {
+      try { collection = JSON.parse(saved); } catch(e2) { collection = {}; }
+    }
   }
 }
 
 async function saveSticker(code, status) {
   try {
-    const { error } = await sb.from('panini_collection')
-      .upsert({ user_id: USER_ID, sticker_code: code, status: status }, { onConflict: 'user_id,sticker_code' });
-    if (error) throw error;
+    if (status <= 0) {
+      await sb.from('panini_collection')
+        .delete()
+        .eq('user_id', USER_ID)
+        .eq('sticker_code', code);
+    } else {
+      await sb.from('panini_collection')
+        .upsert(
+          { user_id: USER_ID, sticker_code: code, status: status },
+          { onConflict: 'user_id,sticker_code' }
+        );
+    }
   } catch(e) {
-    console.error('Save error:', e);
+    // silencioso, ya guardamos en localStorage
   }
-  // Siempre guardar localmente también
-  localStorage.setItem('panini_collection', JSON.stringify(collection));
+  localStorage.setItem('panini_col', JSON.stringify(collection));
 }
 
 // ============================================================
@@ -771,7 +624,6 @@ async function init() {
   document.getElementById('loading-screen').style.display = 'flex';
   await loadCollection();
   document.getElementById('loading-screen').style.display = 'none';
-  isReady = true;
   renderDashboard();
   showTab('dashboard');
 }
@@ -780,11 +632,17 @@ async function init() {
 // TABS
 // ============================================================
 function showTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    const tabs = ['dashboard','buscar','intercambios'];
-    t.classList.toggle('active', tabs[i] === tab || (tab==='group' && tabs[i]==='dashboard') || (tab==='country' && tabs[i]==='dashboard'));
+  var tabNames = ['dashboard','buscar','intercambios'];
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t, i) {
+    t.classList.remove('active');
+    if (tabNames[i] === tab ||
+        (tab === 'group' && tabNames[i] === 'dashboard') ||
+        (tab === 'country' && tabNames[i] === 'dashboard')) {
+      t.classList.add('active');
+    }
   });
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   if (tab === 'dashboard') {
     document.getElementById('page-dashboard').classList.add('active');
     renderDashboard();
@@ -805,62 +663,65 @@ function showTab(tab) {
 }
 
 // ============================================================
-// RENDER DASHBOARD
+// DASHBOARD
 // ============================================================
+function getTotals() {
+  var totalAll = 0;
+  Object.values(SPECIAL_SECTIONS).forEach(function(s) { totalAll += s.stickers.length; });
+  Object.values(GROUPS).forEach(function(g) { totalAll += g.countries.length * 20; });
+  var totalHave = 0;
+  Object.values(collection).forEach(function(v) { if (v >= 1) totalHave++; });
+  return { have: totalHave, all: totalAll };
+}
+
 function renderDashboard() {
-  // Globals
-  let totalHave = 0, totalAll = 0;
-  Object.values(collection).forEach(v => { if(v>=1) totalHave++; });
+  var t = getTotals();
+  document.getElementById('total-have').textContent = t.have;
+  document.getElementById('total-missing').textContent = t.all - t.have;
 
-  // Count total stickers
-  Object.values(SPECIAL_SECTIONS).forEach(s => totalAll += s.stickers.length);
-  Object.values(GROUPS).forEach(g => g.countries.forEach(c => totalAll += 20));
-  
-  document.getElementById('total-have').textContent = totalHave;
-  document.getElementById('total-missing').textContent = totalAll - totalHave;
-
-  // Special sections
-  const specialRow = document.getElementById('special-row');
+  // Especiales
+  var specialRow = document.getElementById('special-row');
   specialRow.innerHTML = '';
-  Object.entries(SPECIAL_SECTIONS).forEach(([key, section]) => {
-    const have = section.stickers.filter(s => (collection[s.code]||0) >= 1).length;
-    const total = section.stickers.length;
-    const pct = Math.round(have/total*100);
-    const div = document.createElement('div');
+  Object.entries(SPECIAL_SECTIONS).forEach(function(entry) {
+    var key = entry[0]; var section = entry[1];
+    var have = section.stickers.filter(function(s) { return (collection[s.code]||0) >= 1; }).length;
+    var total = section.stickers.length;
+    var pct = Math.round(have / total * 100);
+    var div = document.createElement('div');
     div.className = 'special-card';
-    div.innerHTML = `
-      <div class="sc-icon">${section.icon}</div>
-      <div class="sc-name">${section.name}</div>
-      <div class="sc-prog">${have}/${total} stickers</div>
-      <div class="sc-bar"><div class="sc-bar-fill" style="width:${pct}%"></div></div>
-    `;
-    div.onclick = () => openSpecialSection(key);
+    div.innerHTML = '<div class="sc-icon" style="font-family:\'Bebas Neue\',sans-serif;font-size:18px;color:var(--blue)">' + section.icon + '</div>' +
+      '<div class="sc-name">' + section.name + '</div>' +
+      '<div class="sc-prog">' + have + '/' + total + ' stickers</div>' +
+      '<div class="sc-bar"><div class="sc-bar-fill" style="width:' + pct + '%"></div></div>';
+    div.onclick = function() { openSpecialSection(key); };
     specialRow.appendChild(div);
   });
 
-  // Groups
-  const grid = document.getElementById('groups-grid');
+  // Grupos
+  var grid = document.getElementById('groups-grid');
   grid.innerHTML = '';
-  Object.entries(GROUPS).forEach(([letter, group]) => {
-    let gHave = 0, gTotal = group.countries.length * 20;
-    group.countries.forEach(c => {
-      for(let i=1;i<=20;i++) { if((collection[`${c}${i}`]||0)>=1) gHave++; }
+  Object.entries(GROUPS).forEach(function(entry) {
+    var letter = entry[0]; var group = entry[1];
+    var gHave = 0; var gTotal = group.countries.length * 20;
+    group.countries.forEach(function(c) {
+      for (var i = 1; i <= 20; i++) {
+        if ((collection[c + i] || 0) >= 1) gHave++;
+      }
     });
-    const pct = Math.round(gHave/gTotal*100);
-    const card = document.createElement('div');
+    var pct = Math.round(gHave / gTotal * 100);
+    var card = document.createElement('div');
     card.className = 'group-card';
     card.style.setProperty('--group-color', group.color);
-    card.innerHTML = `
-      <div class="group-header">
-        <div class="group-letter">G${letter}</div>
-        <div class="group-pct">${pct}%</div>
-      </div>
-      <div class="group-flags">
-        ${group.countries.map(c => `<div class="flag-chip"><span class="fi">${COUNTRY_INFO[c]?.flag||'🏳'}</span>${c}</div>`).join('')}
-      </div>
-      <div class="group-progress"><div class="group-progress-fill" style="width:${pct}%"></div></div>
-    `;
-    card.onclick = () => { currentGroup = letter; showTab('group'); };
+    var chips = group.countries.map(function(c) {
+      return '<div class="flag-chip">' + c + '</div>';
+    }).join('');
+    card.innerHTML = '<div class="group-header">' +
+      '<div class="group-letter">Grupo ' + letter + '</div>' +
+      '<div class="group-pct">' + pct + '%</div>' +
+      '</div>' +
+      '<div class="group-flags">' + chips + '</div>' +
+      '<div class="group-progress"><div class="group-progress-fill" style="width:' + pct + '%"></div></div>';
+    card.onclick = function(l) { return function() { currentGroup = l; showTab('group'); }; }(letter);
     grid.appendChild(card);
   });
 }
@@ -869,42 +730,35 @@ function renderDashboard() {
 // GROUP VIEW
 // ============================================================
 function renderGroupView() {
-  const group = GROUPS[currentGroup];
-  const el = document.getElementById('group-content');
-  const color = group.color;
-  el.innerHTML = `
-    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:14px 16px;margin-bottom:14px;color:white;display:flex;align-items:center;gap:12px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:${color};line-height:1">G${currentGroup}</div>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${color}">GRUPO ${currentGroup}</div>
-        <div style="font-size:12px;color:#94a3b8">Toca un país para ver sus stickers</div>
-      </div>
-    </div>
-    <div class="countries-list" id="countries-list"></div>
-  `;
-  const list = document.getElementById('countries-list');
-  group.countries.forEach(code => {
-    const info = COUNTRY_INFO[code] || {name:code,flag:'🏳'};
-    let have = 0;
-    for(let i=1;i<=20;i++) { if((collection[`${code}${i}`]||0)>=1) have++; }
-    const pct = Math.round(have/20*100);
-    const row = document.createElement('div');
+  var group = GROUPS[currentGroup];
+  var el = document.getElementById('group-content');
+  var color = group.color;
+  el.innerHTML = '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:14px 16px;margin-bottom:14px;color:white;display:flex;align-items:center;gap:12px;">' +
+    '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:40px;color:' + color + ';line-height:1">Grupo ' + currentGroup + '</div>' +
+    '<div><div style="font-size:12px;color:#94a3b8;margin-top:4px">Toca un pais para ver sus stickers</div></div>' +
+    '</div>' +
+    '<div class="countries-list" id="countries-list"></div>';
+
+  var list = document.getElementById('countries-list');
+  group.countries.forEach(function(code) {
+    var name = COUNTRY_NAMES[code] || code;
+    var have = 0;
+    for (var i = 1; i <= 20; i++) {
+      if ((collection[code + i] || 0) >= 1) have++;
+    }
+    var pct = Math.round(have / 20 * 100);
+    var row = document.createElement('div');
     row.className = 'country-row';
-    row.innerHTML = `
-      <div class="country-row-flag">${info.flag}</div>
-      <div class="country-row-info">
-        <div class="country-row-name">${info.name}</div>
-        <div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
-          <div class="country-row-bar" style="width:80px;">
-            <div class="country-row-bar-fill" style="width:${pct}%;background:${color}"></div>
-          </div>
-          <div style="font-size:11px;color:var(--muted);font-weight:700">${have}/20</div>
-        </div>
-      </div>
-      <div class="country-row-pct" style="color:${pct===100?'var(--green)':color}">${pct}%</div>
-      <div style="color:var(--muted)">›</div>
-    `;
-    row.onclick = () => { currentCountry = code; showTab('country'); };
+    row.innerHTML = '<div class="country-row-code">' + code + '</div>' +
+      '<div class="country-row-info">' +
+      '<div class="country-row-name">' + name + '</div>' +
+      '<div style="display:flex;align-items:center;gap:6px;margin-top:3px;">' +
+      '<div class="country-row-bar"><div class="country-row-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div style="font-size:11px;color:var(--muted);font-weight:700">' + have + '/20</div>' +
+      '</div></div>' +
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:20px;color:' + (pct === 100 ? 'var(--green)' : color) + '">' + pct + '%</div>' +
+      '<div style="color:var(--muted)">&rsaquo;</div>';
+    row.onclick = function(c) { return function() { currentCountry = c; showTab('country'); }; }(code);
     list.appendChild(row);
   });
 }
@@ -913,158 +767,161 @@ function renderGroupView() {
 // COUNTRY VIEW
 // ============================================================
 function renderCountryView() {
-  const code = currentCountry;
-  const info = COUNTRY_INFO[code] || {name:code,flag:'🏳'};
-  const stickers = genCountryStickers(code);
-  let have = stickers.filter(s => (collection[s.code]||0)>=1).length;
-  let dups = stickers.filter(s => (collection[s.code]||0)>=2).length;
-  const el = document.getElementById('country-content');
+  var code = currentCountry;
+  var name = COUNTRY_NAMES[code] || code;
+  var stickers = genCountryStickers(code);
+  var have = stickers.filter(function(s) { return (collection[s.code]||0) >= 1; }).length;
+  var dups = stickers.filter(function(s) { return (collection[s.code]||0) >= 2; }).length;
+  var el = document.getElementById('country-content');
 
-  el.innerHTML = `
-    <div class="country-header">
-      <div class="country-flag-big">${info.flag}</div>
-      <div style="flex:1">
-        <div class="country-name">${info.name}</div>
-        <div class="country-stats-row">
-          <div class="cstat green"><div class="cstat-num">${have}</div><div class="cstat-lbl">Tengo</div></div>
-          <div class="cstat red"><div class="cstat-num">${20-have}</div><div class="cstat-lbl">Faltan</div></div>
-          <div class="cstat gold"><div class="cstat-num">${dups}</div><div class="cstat-lbl">Repet.</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="sticker-grid" id="sticker-grid"></div>
-  `;
+  document.getElementById('back-btn-country').onclick = function() { showTab('group'); };
+  document.getElementById('back-btn-country').innerHTML = '&larr; Volver al Grupo';
 
-  const grid = document.getElementById('sticker-grid');
-  stickers.forEach(s => {
-    const status = collection[s.code] || 0;
-    const card = document.createElement('div');
-    card.className = `sticker-card${status>=1?' have':''}${status>=2?' duplicate':''}`;
-    card.id = `sticker-${s.code}`;
-    card.innerHTML = `
-      <div class="sticker-dup-badge">x${status}</div>
-      <div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-      <div class="sticker-code">${s.code}${s.foil?'<span class="sticker-foil"> ★</span>':''}</div>
-      <div class="sticker-name">${s.name}</div>
-    `;
-    card.onclick = () => openStickerModal(s.code, s.name, s.foil);
+  el.innerHTML = '<div class="country-header">' +
+    '<div class="country-badge">' + code + '</div>' +
+    '<div style="flex:1">' +
+    '<div class="country-name">' + name + '</div>' +
+    '<div class="country-stats-row">' +
+    '<div class="cstat green"><div class="cstat-num">' + have + '</div><div class="cstat-lbl">Tengo</div></div>' +
+    '<div class="cstat red"><div class="cstat-num">' + (20 - have) + '</div><div class="cstat-lbl">Faltan</div></div>' +
+    '<div class="cstat gold"><div class="cstat-num">' + dups + '</div><div class="cstat-lbl">Repet.</div></div>' +
+    '</div></div></div>' +
+    '<div class="sticker-grid" id="sticker-grid"></div>';
+
+  var grid = document.getElementById('sticker-grid');
+  stickers.forEach(function(s) {
+    var status = collection[s.code] || 0;
+    var card = document.createElement('div');
+    card.className = 'sticker-card' + (status >= 1 ? ' have' : '') + (status >= 2 ? ' duplicate' : '');
+    card.id = 'sc-' + s.code;
+    card.innerHTML = '<div class="sticker-dup-badge">x' + status + '</div>' +
+      '<div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.5" fill="none"/></svg></div>' +
+      '<div class="sticker-code">' + s.code + (s.foil ? '<span class="foil-star"> *</span>' : '') + '</div>' +
+      '<div class="sticker-name">' + s.name + '</div>';
+    card.onclick = function(sc) { return function() { openStickerModal(sc.code, sc.name, sc.foil); }; }(s);
     grid.appendChild(card);
   });
-}
-
-function backToGroup() {
-  showTab('group');
 }
 
 // ============================================================
 // SPECIAL SECTION
 // ============================================================
 function openSpecialSection(key) {
-  const section = SPECIAL_SECTIONS[key];
-  // Reusar page-country pero con datos especiales
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var section = SPECIAL_SECTIONS[key];
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById('page-country').classList.add('active');
-  document.getElementById('back-to-group-btn').onclick = () => showTab('dashboard');
-  document.getElementById('back-to-group-btn').innerHTML = '← Volver al Dashboard';
 
-  let have = section.stickers.filter(s=>(collection[s.code]||0)>=1).length;
-  let dups = section.stickers.filter(s=>(collection[s.code]||0)>=2).length;
-  const total = section.stickers.length;
-  const el = document.getElementById('country-content');
+  var btn = document.getElementById('back-btn-country');
+  btn.innerHTML = '&larr; Volver al Dashboard';
+  btn.onclick = function() { showTab('dashboard'); };
 
-  el.innerHTML = `
-    <div class="country-header">
-      <div class="country-flag-big">${section.icon}</div>
-      <div style="flex:1">
-        <div class="country-name" style="font-size:18px">${section.name}</div>
-        <div class="country-stats-row">
-          <div class="cstat green"><div class="cstat-num">${have}</div><div class="cstat-lbl">Tengo</div></div>
-          <div class="cstat red"><div class="cstat-num">${total-have}</div><div class="cstat-lbl">Faltan</div></div>
-          <div class="cstat gold"><div class="cstat-num">${dups}</div><div class="cstat-lbl">Repet.</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="sticker-grid" id="sticker-grid"></div>
-  `;
+  var have = section.stickers.filter(function(s) { return (collection[s.code]||0) >= 1; }).length;
+  var dups = section.stickers.filter(function(s) { return (collection[s.code]||0) >= 2; }).length;
+  var total = section.stickers.length;
+  var el = document.getElementById('country-content');
 
-  const grid = document.getElementById('sticker-grid');
-  section.stickers.forEach(s => {
-    const status = collection[s.code] || 0;
-    const card = document.createElement('div');
-    card.className = `sticker-card${status>=1?' have':''}${status>=2?' duplicate':''}`;
-    card.innerHTML = `
-      <div class="sticker-dup-badge">x${status}</div>
-      <div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-      <div class="sticker-code">${s.code}${s.foil?'<span class="sticker-foil"> ★</span>':''}</div>
-      <div class="sticker-name">${s.name}</div>
-    `;
-    card.onclick = () => openStickerModal(s.code, s.name, s.foil);
+  el.innerHTML = '<div class="country-header">' +
+    '<div class="country-badge" style="font-size:18px">' + section.icon + '</div>' +
+    '<div style="flex:1">' +
+    '<div class="country-name">' + section.name + '</div>' +
+    '<div class="country-stats-row">' +
+    '<div class="cstat green"><div class="cstat-num">' + have + '</div><div class="cstat-lbl">Tengo</div></div>' +
+    '<div class="cstat red"><div class="cstat-num">' + (total - have) + '</div><div class="cstat-lbl">Faltan</div></div>' +
+    '<div class="cstat gold"><div class="cstat-num">' + dups + '</div><div class="cstat-lbl">Repet.</div></div>' +
+    '</div></div></div>' +
+    '<div class="sticker-grid" id="sticker-grid"></div>';
+
+  var grid = document.getElementById('sticker-grid');
+  section.stickers.forEach(function(s) {
+    var status = collection[s.code] || 0;
+    var card = document.createElement('div');
+    card.className = 'sticker-card' + (status >= 1 ? ' have' : '') + (status >= 2 ? ' duplicate' : '');
+    card.id = 'sc-' + s.code;
+    card.innerHTML = '<div class="sticker-dup-badge">x' + status + '</div>' +
+      '<div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.5" fill="none"/></svg></div>' +
+      '<div class="sticker-code">' + s.code + (s.foil ? '<span class="foil-star"> *</span>' : '') + '</div>' +
+      '<div class="sticker-name">' + s.name + '</div>';
+    card.onclick = function(sc) { return function() { openStickerModal(sc.code, sc.name, sc.foil); }; }(s);
     grid.appendChild(card);
   });
 }
 
 // ============================================================
-// STICKER MODAL
+// MODAL
 // ============================================================
 function openStickerModal(code, name, foil) {
-  const status = collection[code] || 0;
-  const modal = document.getElementById('modal');
-  const content = document.getElementById('modal-content');
-  content.innerHTML = `
-    <div class="modal-title">${code} ${foil?'⭐':''}</div>
-    <div class="modal-sub">${name}</div>
-    <div style="background:var(--bg);border-radius:12px;padding:12px;margin-bottom:12px;text-align:center;">
-      <div style="font-size:13px;color:var(--muted);font-weight:600">Estado actual</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:${status>=1?'var(--green)':'var(--red)'}">
-        ${status===0?'❌ No la tengo':status===1?'✅ La tengo':'🔄 Repetida x'+status}
-      </div>
-    </div>
-    <div class="modal-actions">
-      ${status===0?`<button class="action-btn success" onclick="setStickerStatus('${code}',1)">✅ Marcar como tengo</button>`:''}
-      ${status>=1?`<button class="action-btn primary" onclick="setStickerStatus('${code}',${status+1})">🔄 Agregar repetida (+1)</button>`:''}
-      ${status>=2?`<button class="action-btn" style="background:var(--muted);color:white" onclick="setStickerStatus('${code}',${status-1})">➖ Quitar repetida</button>`:''}
-      ${status>=1?`<button class="action-btn danger" onclick="setStickerStatus('${code}',0)">❌ Quitar de mi colección</button>`:''}
-      <button class="action-btn" style="background:var(--border);color:var(--text)" onclick="closeModal()">Cerrar</button>
-    </div>
-  `;
+  var status = collection[code] || 0;
+  var modal = document.getElementById('modal');
+  var content = document.getElementById('modal-content');
+
+  var statusText = status === 0 ? 'No la tengo' : status === 1 ? 'La tengo' : 'Repetida x' + status;
+  var statusColor = status >= 1 ? 'var(--green)' : 'var(--red)';
+  var foilLabel = foil ? ' (Foil)' : '';
+
+  var buttons = '';
+  if (status === 0) {
+    buttons += '<button class="action-btn success" onclick="setStickerStatus(\'' + code + '\',1)">Marcar como tengo</button>';
+  }
+  if (status >= 1) {
+    buttons += '<button class="action-btn primary" onclick="setStickerStatus(\'' + code + '\',' + (status + 1) + ')">Agregar repetida (+1)</button>';
+  }
+  if (status >= 2) {
+    buttons += '<button class="action-btn dim" onclick="setStickerStatus(\'' + code + '\',' + (status - 1) + ')">Quitar repetida (-1)</button>';
+  }
+  if (status >= 1) {
+    buttons += '<button class="action-btn danger" onclick="setStickerStatus(\'' + code + '\',0)">Quitar de coleccion</button>';
+  }
+  buttons += '<button class="action-btn neutral" onclick="closeModal()">Cerrar</button>';
+
+  content.innerHTML = '<div class="modal-title">' + code + foilLabel + '</div>' +
+    '<div class="modal-sub">' + name + '</div>' +
+    '<div style="background:var(--bg);border-radius:12px;padding:12px;margin-bottom:12px;text-align:center;">' +
+    '<div style="font-size:13px;color:var(--muted);font-weight:600">Estado actual</div>' +
+    '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:' + statusColor + '">' + statusText + '</div>' +
+    '</div>' +
+    '<div class="modal-actions">' + buttons + '</div>';
+
   modal.classList.add('show');
 }
 
 async function setStickerStatus(code, status) {
-  if(status <= 0) { delete collection[code]; status = 0; }
-  else collection[code] = status;
+  if (status <= 0) {
+    delete collection[code];
+    status = 0;
+  } else {
+    collection[code] = status;
+  }
   await saveSticker(code, status);
   closeModal();
-  // Update card in-place
-  const card = document.getElementById(`sticker-${code}`);
-  if(card) {
-    card.className = `sticker-card${status>=1?' have':''}${status>=2?' duplicate':''}`;
-    const dup = card.querySelector('.sticker-dup-badge');
-    if(dup) dup.textContent = `x${status}`;
+
+  // Actualizar tarjeta en pantalla
+  var card = document.getElementById('sc-' + code);
+  if (card) {
+    card.className = 'sticker-card' + (status >= 1 ? ' have' : '') + (status >= 2 ? ' duplicate' : '');
+    var dup = card.querySelector('.sticker-dup-badge');
+    if (dup) dup.textContent = 'x' + status;
   }
+
   updateCountryHeader();
   renderDashboard();
-  showToast(status===0?'Sticker removido':'¡Sticker guardado! 🎉');
+  showToast(status === 0 ? 'Sticker removido' : 'Sticker guardado!');
 }
 
 function updateCountryHeader() {
-  if(!currentCountry) return;
-  const stickers = genCountryStickers(currentCountry);
-  let have = stickers.filter(s=>(collection[s.code]||0)>=1).length;
-  let dups = stickers.filter(s=>(collection[s.code]||0)>=2).length;
-  const greenEl = document.querySelector('.cstat.green .cstat-num');
-  const redEl = document.querySelector('.cstat.red .cstat-num');
-  const goldEl = document.querySelector('.cstat.gold .cstat-num');
-  if(greenEl) greenEl.textContent = have;
-  if(redEl) redEl.textContent = 20-have;
-  if(goldEl) goldEl.textContent = dups;
+  if (!currentCountry) return;
+  var stickers = genCountryStickers(currentCountry);
+  var have = stickers.filter(function(s) { return (collection[s.code]||0) >= 1; }).length;
+  var dups = stickers.filter(function(s) { return (collection[s.code]||0) >= 2; }).length;
+  var greenEl = document.querySelector('.cstat.green .cstat-num');
+  var redEl = document.querySelector('.cstat.red .cstat-num');
+  var goldEl = document.querySelector('.cstat.gold .cstat-num');
+  if (greenEl) greenEl.textContent = have;
+  if (redEl) redEl.textContent = 20 - have;
+  if (goldEl) goldEl.textContent = dups;
 }
 
-// ============================================================
-// MODAL
-// ============================================================
 function closeModal(e) {
-  if(!e || e.target.id==='modal') {
+  if (!e || e.target.id === 'modal') {
     document.getElementById('modal').classList.remove('show');
   }
 }
@@ -1073,91 +930,91 @@ function closeModal(e) {
 // TOAST
 // ============================================================
 function showToast(msg) {
-  const t = document.getElementById('toast');
+  var t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(function() { t.classList.remove('show'); }, 2000);
 }
 
 // ============================================================
-// SEARCH
+// BUSCAR
 // ============================================================
 function getAllStickers() {
-  const all = [];
-  Object.values(SPECIAL_SECTIONS).forEach(s => s.stickers.forEach(st => all.push(st)));
-  Object.values(GROUPS).forEach(g => g.countries.forEach(c => {
-    genCountryStickers(c).forEach(st => all.push(st));
-  }));
+  var all = [];
+  Object.values(SPECIAL_SECTIONS).forEach(function(s) {
+    s.stickers.forEach(function(st) { all.push(st); });
+  });
+  Object.keys(GROUPS).forEach(function(g) {
+    GROUPS[g].countries.forEach(function(c) {
+      genCountryStickers(c).forEach(function(st) { all.push(st); });
+    });
+  });
   return all;
 }
 
 function doSearch(q) {
-  const el = document.getElementById('search-results');
-  if(!q.trim()) { el.innerHTML = ''; return; }
-  const query = q.toLowerCase().trim();
-  const results = getAllStickers().filter(s =>
-    s.code.toLowerCase().includes(query) || s.name.toLowerCase().includes(query)
-  ).slice(0, 40);
+  var el = document.getElementById('search-results');
+  if (!q.trim()) { el.innerHTML = ''; return; }
+  var query = q.toLowerCase().trim();
+  var results = getAllStickers().filter(function(s) {
+    return s.code.toLowerCase().indexOf(query) !== -1 || s.name.toLowerCase().indexOf(query) !== -1;
+  }).slice(0, 40);
 
-  if(!results.length) { el.innerHTML = '<div class="empty-state">No se encontraron stickers</div>'; return; }
+  if (!results.length) {
+    el.innerHTML = '<div class="empty-state">No se encontraron stickers</div>';
+    return;
+  }
 
-  el.innerHTML = `<div class="sticker-grid">
-    ${results.map(s => {
-      const status = collection[s.code] || 0;
-      return `<div class="sticker-card${status>=1?' have':''}${status>=2?' duplicate':''}" onclick="openStickerModal('${s.code}','${s.name.replace(/'/g,"\\'")}',${s.foil||false})">
-        <div class="sticker-dup-badge">x${status}</div>
-        <div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <div class="sticker-code">${s.code}</div>
-        <div class="sticker-name">${s.name}</div>
-      </div>`;
-    }).join('')}
-  </div>`;
+  var html = '<div class="sticker-grid">';
+  results.forEach(function(s) {
+    var status = collection[s.code] || 0;
+    html += '<div class="sticker-card' + (status >= 1 ? ' have' : '') + (status >= 2 ? ' duplicate' : '') + '" id="sc-' + s.code + '" onclick="openStickerModal(\'' + s.code + '\',\'' + s.name + '\',' + (s.foil || false) + ')">' +
+      '<div class="sticker-dup-badge">x' + status + '</div>' +
+      '<div class="sticker-check"><svg fill="white" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.5" fill="none"/></svg></div>' +
+      '<div class="sticker-code">' + s.code + '</div>' +
+      '<div class="sticker-name">' + s.name + '</div>' +
+      '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 // ============================================================
 // INTERCAMBIOS
 // ============================================================
 function renderIntercambios() {
-  const all = getAllStickers();
-  const dups = all.filter(s => (collection[s.code]||0)>=2);
-  const missing = all.filter(s => (collection[s.code]||0)===0);
+  var all = getAllStickers();
+  var dups = all.filter(function(s) { return (collection[s.code]||0) >= 2; });
+  var missing = all.filter(function(s) { return (collection[s.code]||0) === 0; });
 
-  const dupEl = document.getElementById('duplicates-list');
-  const wishEl = document.getElementById('wishlist-list');
+  var dupEl = document.getElementById('duplicates-list');
+  var wishEl = document.getElementById('wishlist-list');
 
-  dupEl.innerHTML = dups.length ? dups.map(s => `
-    <div class="swap-item">
-      <div class="swap-code">${s.code}</div>
-      <div style="flex:1;font-size:12px">${s.name}</div>
-      <div style="background:var(--gold);color:white;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:800">x${collection[s.code]}</div>
-    </div>
-  `).join('') : '<div class="empty-state">Sin repetidas aún 🎉</div>';
+  if (dups.length) {
+    dupEl.innerHTML = dups.map(function(s) {
+      return '<div class="swap-item">' +
+        '<div class="swap-code">' + s.code + '</div>' +
+        '<div style="flex:1;font-size:12px">' + s.name + '</div>' +
+        '<div style="background:var(--gold);color:white;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:800">x' + collection[s.code] + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    dupEl.innerHTML = '<div class="empty-state">Sin repetidas aun</div>';
+  }
 
-  wishEl.innerHTML = missing.length ? missing.slice(0,50).map(s => `
-    <div class="swap-item">
-      <div class="swap-code">${s.code}</div>
-      <div style="flex:1;font-size:12px">${s.name}</div>
-    </div>
-  `).join('') + (missing.length>50?`<div style="text-align:center;color:var(--muted);font-size:12px;padding:8px">...y ${missing.length-50} más</div>`:'')
-  : '<div class="empty-state">¡Álbum completo! 🏆</div>';
+  if (missing.length) {
+    var show = missing.slice(0, 60);
+    wishEl.innerHTML = show.map(function(s) {
+      return '<div class="swap-item">' +
+        '<div class="swap-code">' + s.code + '</div>' +
+        '<div style="flex:1;font-size:12px">' + s.name + '</div>' +
+        '</div>';
+    }).join('') +
+    (missing.length > 60 ? '<div style="text-align:center;color:var(--muted);font-size:12px;padding:8px">...y ' + (missing.length - 60) + ' mas</div>' : '');
+  } else {
+    wishEl.innerHTML = '<div class="empty-state">Album completo!</div>';
+  }
 }
-
-// ============================================================
-// SUPABASE SCHEMA HELPER
-// ============================================================
-// Crea esta tabla en Supabase con este SQL:
-/*
-create table panini_collection (
-  id uuid default gen_random_uuid() primary key,
-  user_id text not null,
-  sticker_code text not null,
-  status integer default 0,
-  updated_at timestamp default now(),
-  unique(user_id, sticker_code)
-);
-alter table panini_collection enable row level security;
-create policy "Allow all" on panini_collection for all using (true);
-*/
 
 // ============================================================
 // START
