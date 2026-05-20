@@ -477,45 +477,6 @@ body {
   transition: all 0.2s;
 }
 .swap-clear-btn:active { transform: scale(0.97); }
-
-/* === FALTANTES VISUAL === */
-.missing-header-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; color: white;
-}
-.missing-header-info { font-size: 11px; color: #94a3b8; letter-spacing: 1px; text-transform: uppercase; }
-.missing-total { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: #e63946; line-height: 1; }
-.pdf-btn {
-  background: #e63946; color: white; border: none; border-radius: 10px;
-  padding: 10px 14px; font-family: 'Nunito', sans-serif; font-weight: 800;
-  font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;
-  transition: all 0.15s; box-shadow: 0 4px 12px rgba(230,57,70,0.4);
-}
-.pdf-btn:active { transform: scale(0.97); }
-.missing-group-block {
-  background: white; border-radius: 14px; margin-bottom: 12px;
-  border: 2px solid var(--border); box-shadow: var(--shadow); overflow: hidden;
-}
-.missing-group-title {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; border-bottom: 2px solid var(--border);
-}
-.missing-group-label { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1px; }
-.missing-group-count { margin-left: auto; font-size: 11px; font-weight: 800; color: var(--muted); background: var(--bg); border-radius: 20px; padding: 2px 8px; }
-.missing-country-block { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-.missing-country-block:last-child { border-bottom: none; }
-.missing-country-label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.missing-country-code { font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: white; border-radius: 6px; padding: 2px 8px; letter-spacing: 1px; flex-shrink: 0; }
-.missing-country-name { font-weight: 800; font-size: 12px; color: var(--muted); flex: 1; }
-.missing-country-pct { font-family: 'Bebas Neue', sans-serif; font-size: 14px; flex-shrink: 0; }
-.missing-chips { display: flex; flex-wrap: wrap; gap: 5px; }
-.missing-chip {
-  background: #fff0f0; border: 1.5px solid #fca5a5; color: #e63946;
-  border-radius: 8px; padding: 4px 8px; font-family: 'Bebas Neue', sans-serif;
-  font-size: 14px; letter-spacing: 0.5px;
-}
-.missing-chip.foil { background: #fffbeb; border-color: #fcd34d; color: #b45309; }
 </style>
 </head>
 <body>
@@ -579,34 +540,11 @@ body {
 </div>
 
 <div class="page" id="page-buscar">
-
-  <div style="display:flex;gap:8px;margin-bottom:14px;">
-    <button id="search-tab-codigo" class="swap-inner-tab active" onclick="switchSearchTab('codigo')">Buscar Codigo</button>
-    <button id="search-tab-faltan" class="swap-inner-tab" onclick="switchSearchTab('faltan')">Mis Faltantes</button>
+  <div class="search-bar">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="search-input" placeholder="Buscar codigo de sticker..." oninput="doSearch(this.value)">
   </div>
-
-  <div id="search-panel-codigo">
-    <div class="search-bar">
-      <span class="search-icon">&#128269;</span>
-      <input type="text" id="search-input" placeholder="Buscar codigo de sticker..." oninput="doSearch(this.value)">
-    </div>
-    <div id="search-results"></div>
-  </div>
-
-  <div id="search-panel-faltan" style="display:none;">
-    <div class="missing-header-bar">
-      <div>
-        <div class="missing-header-info">Stickers que te faltan</div>
-        <div class="missing-total" id="missing-total-count">0</div>
-        <div class="missing-header-info">codigos faltantes</div>
-      </div>
-      <button class="pdf-btn" onclick="generateMissingPDF()">
-        &#128462; Generar PDF
-      </button>
-    </div>
-    <div id="missing-visual"></div>
-  </div>
-
+  <div id="search-results"></div>
 </div>
 
 <div class="page" id="page-intercambios">
@@ -825,7 +763,6 @@ function showTab(tab) {
     document.getElementById('page-buscar').classList.add('active');
     document.getElementById('search-input').value = '';
     document.getElementById('search-results').innerHTML = '';
-    if (typeof searchCurrentTab !== 'undefined' && searchCurrentTab === 'faltan') renderMissingVisual();
   } else if (tab === 'intercambios') {
     document.getElementById('page-intercambios').classList.add('active');
     renderIntercambios();
@@ -1122,18 +1059,6 @@ function getAllStickers() {
   return all;
 }
 
-var searchCurrentTab = 'codigo';
-
-function switchSearchTab(tab) {
-  searchCurrentTab = tab;
-  document.getElementById('search-tab-codigo').classList.toggle('active', tab === 'codigo');
-  document.getElementById('search-tab-faltan').classList.toggle('active', tab === 'faltan');
-  document.getElementById('search-panel-codigo').style.display = tab === 'codigo' ? '' : 'none';
-  document.getElementById('search-panel-faltan').style.display = tab === 'faltan' ? '' : 'none';
-  if (tab === 'faltan') renderMissingVisual();
-}
-
-// Cuando se entra a buscar, resetear segun tab activo
 function doSearch(q) {
   var el = document.getElementById('search-results');
   if (!q.trim()) { el.innerHTML = ''; return; }
@@ -1159,150 +1084,6 @@ function doSearch(q) {
   });
   html += '</div>';
   el.innerHTML = html;
-}
-
-// ============================================================
-// FALTANTES VISUAL
-// ============================================================
-function buildMissingData() {
-  var result = [];
-  // Especiales
-  var espSections = {};
-  Object.entries(SPECIAL_SECTIONS).forEach(function(entry) {
-    var key = entry[0]; var section = entry[1];
-    var missing = section.stickers.filter(function(s) { return (collection[s.code]||0) === 0; });
-    if (missing.length) espSections[key] = { name: section.name, missing: missing };
-  });
-  if (Object.keys(espSections).length) {
-    result.push({ type: 'special', label: 'Especiales', color: '#1d6fa4', sections: espSections });
-  }
-  // Grupos
-  Object.entries(GROUPS).forEach(function(entry) {
-    var letter = entry[0]; var group = entry[1];
-    var countries = [];
-    group.countries.forEach(function(code) {
-      var stickers = genCountryStickers(code);
-      var missing = stickers.filter(function(s) { return (collection[s.code]||0) === 0; });
-      if (missing.length) {
-        countries.push({ code: code, name: COUNTRY_NAMES[code]||code, missing: missing, have: stickers.length - missing.length, total: stickers.length });
-      }
-    });
-    if (countries.length) result.push({ type: 'group', label: 'Grupo ' + letter, color: group.color, countries: countries });
-  });
-  return result;
-}
-
-function renderMissingVisual() {
-  var data = buildMissingData();
-  var totalMissing = 0;
-  data.forEach(function(block) {
-    if (block.type === 'special') Object.values(block.sections).forEach(function(s) { totalMissing += s.missing.length; });
-    else block.countries.forEach(function(c) { totalMissing += c.missing.length; });
-  });
-  document.getElementById('missing-total-count').textContent = totalMissing;
-  var container = document.getElementById('missing-visual');
-  if (totalMissing === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:40px 20px;">' +
-      '<div style="font-size:48px;margin-bottom:12px">&#127942;</div>' +
-      '<div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--green)">Album Completo!</div>' +
-      '<div style="color:var(--muted);font-size:13px;margin-top:6px">Tienes todos los stickers</div></div>';
-    return;
-  }
-  var html = '';
-  data.forEach(function(block) {
-    var blockTotal = 0;
-    if (block.type === 'special') { Object.values(block.sections).forEach(function(s) { blockTotal += s.missing.length; }); }
-    else { block.countries.forEach(function(c) { blockTotal += c.missing.length; }); }
-    html += '<div class="missing-group-block">';
-    html += '<div class="missing-group-title" style="background:' + block.color + '18;">' +
-      '<div style="width:10px;height:10px;border-radius:50%;background:' + block.color + ';flex-shrink:0"></div>' +
-      '<div class="missing-group-label" style="color:' + block.color + '">' + block.label + '</div>' +
-      '<div class="missing-group-count">' + blockTotal + ' faltan</div></div>';
-    if (block.type === 'special') {
-      Object.entries(block.sections).forEach(function(e2) {
-        var sec = e2[1];
-        html += '<div class="missing-country-block"><div class="missing-country-label">' +
-          '<div class="missing-country-code" style="background:' + block.color + '">' + e2[0] + '</div>' +
-          '<div class="missing-country-name">' + sec.name + '</div>' +
-          '<div class="missing-country-pct" style="color:var(--red)">' + sec.missing.length + ' faltan</div></div>';
-        html += '<div class="missing-chips">';
-        sec.missing.forEach(function(s) { html += '<div class="missing-chip' + (s.foil?' foil':'') + '">' + s.code + (s.foil?' *':'') + '</div>'; });
-        html += '</div></div>';
-      });
-    } else {
-      block.countries.forEach(function(c) {
-        var pct = Math.round(c.have / c.total * 100);
-        html += '<div class="missing-country-block"><div class="missing-country-label">' +
-          '<div class="missing-country-code" style="background:' + block.color + '">' + c.code + '</div>' +
-          '<div class="missing-country-name">' + c.name + '</div>' +
-          '<div class="missing-country-pct" style="color:' + block.color + '">' + pct + '%</div></div>';
-        html += '<div class="missing-chips">';
-        c.missing.forEach(function(s) { html += '<div class="missing-chip' + (s.foil?' foil':'') + '">' + s.code + (s.foil?' *':'') + '</div>'; });
-        html += '</div></div>';
-      });
-    }
-    html += '</div>';
-  });
-  container.innerHTML = html;
-}
-
-function generateMissingPDF() {
-  var data = buildMissingData();
-  var totalMissing = 0;
-  data.forEach(function(block) {
-    if (block.type === 'special') Object.values(block.sections).forEach(function(s) { totalMissing += s.missing.length; });
-    else block.countries.forEach(function(c) { totalMissing += c.missing.length; });
-  });
-  var today = new Date();
-  var dateStr = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Faltantes Panini 2026</title><style>' +
-    'body{font-family:Arial,sans-serif;background:#fff;color:#1a1a2e;margin:0;padding:24px;font-size:13px;}' +
-    'h1{font-size:20px;margin:0 0 2px;}' +
-    '.sub{font-size:11px;color:#6b7280;margin-bottom:16px;}' +
-    '.stat{display:inline-block;background:#fff0f0;border:2px solid #fca5a5;border-radius:10px;padding:8px 16px;margin-bottom:16px;}' +
-    '.stat-num{font-size:28px;font-weight:900;color:#e63946;line-height:1;}' +
-    '.stat-lbl{font-size:10px;color:#6b7280;text-transform:uppercase;}' +
-    '.block{margin-bottom:14px;border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;page-break-inside:avoid;}' +
-    '.block-title{padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:1px;color:white;display:flex;align-items:center;justify-content:space-between;}' +
-    '.block-count{font-size:11px;background:rgba(255,255,255,0.25);border-radius:20px;padding:1px 8px;}' +
-    '.country{padding:8px 12px;border-top:1px solid #e2e8f0;}' +
-    '.clabel{display:flex;align-items:center;gap:6px;margin-bottom:5px;}' +
-    '.ccode{font-size:12px;font-weight:900;color:white;border-radius:5px;padding:1px 7px;letter-spacing:1px;}' +
-    '.cname{font-size:11px;color:#6b7280;font-weight:700;flex:1;}' +
-    '.cpct{font-size:12px;font-weight:900;}' +
-    '.chips{display:flex;flex-wrap:wrap;gap:3px;}' +
-    '.chip{border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700;border:1.5px solid #fca5a5;background:#fff0f0;color:#e63946;}' +
-    '.chip.f{border-color:#fcd34d;background:#fffbeb;color:#b45309;}' +
-    '</style></head><body>';
-  html += '<h1>&#9917; Panini FIFA World Cup 2026</h1>';
-  html += '<div class="sub">Stickers faltantes &mdash; ' + dateStr + '</div>';
-  html += '<div class="stat"><div class="stat-num">' + totalMissing + '</div><div class="stat-lbl">Stickers que faltan</div></div>';
-  data.forEach(function(block) {
-    var bTotal = 0;
-    if (block.type === 'special') Object.values(block.sections).forEach(function(s) { bTotal += s.missing.length; });
-    else block.countries.forEach(function(c) { bTotal += c.missing.length; });
-    html += '<div class="block"><div class="block-title" style="background:' + block.color + '">' + block.label + '<span class="block-count">' + bTotal + ' faltan</span></div>';
-    if (block.type === 'special') {
-      Object.entries(block.sections).forEach(function(e2) {
-        var sec = e2[1];
-        html += '<div class="country"><div class="clabel"><div class="ccode" style="background:' + block.color + '">' + e2[0] + '</div><div class="cname">' + sec.name + '</div><div class="cpct" style="color:#e63946">' + sec.missing.length + ' faltan</div></div><div class="chips">';
-        sec.missing.forEach(function(s) { html += '<div class="chip' + (s.foil?' f':'') + '">' + s.code + (s.foil?' *':'') + '</div>'; });
-        html += '</div></div>';
-      });
-    } else {
-      block.countries.forEach(function(c) {
-        var pct = Math.round(c.have / c.total * 100);
-        html += '<div class="country"><div class="clabel"><div class="ccode" style="background:' + block.color + '">' + c.code + '</div><div class="cname">' + c.name + '</div><div class="cpct" style="color:' + block.color + '">' + pct + '% completo</div></div><div class="chips">';
-        c.missing.forEach(function(s) { html += '<div class="chip' + (s.foil?' f':'') + '">' + s.code + (s.foil?' *':'') + '</div>'; });
-        html += '</div></div>';
-      });
-    }
-    html += '</div>';
-  });
-  html += '</body></html>';
-  var win = window.open('', '_blank');
-  win.document.write(html); win.document.close();
-  win.onload = function() { win.print(); };
 }
 
 // ============================================================
